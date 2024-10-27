@@ -9,9 +9,19 @@ import SwiftUI
 
 @main
 struct PocketPilotApp: App {
+  
+  let provider: CoreDataProvider
+  
+  init() {
+    provider = CoreDataProvider()
+  }
+  
     var body: some Scene {
         WindowGroup {
+          NavigationStack {
             ContentView()
+              .environment(\.managedObjectContext, provider.context)
+          }
         }
     }
 }
