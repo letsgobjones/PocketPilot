@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct BudgetListScreen: View {
+struct BudgetListView: View {
+  
+  @FetchRequest(sortDescriptors: [])  private var budgets: FetchedResults<Budget>
   @State private var isPresented: Bool = false
   
   var body: some View {
@@ -28,6 +30,7 @@ struct BudgetListScreen: View {
 
 #Preview {
   NavigationStack {
-    BudgetListScreen()
+    BudgetListView()
+      .environment(\.managedObjectContext, CoreDataProvider.preview.context)
   }
 }

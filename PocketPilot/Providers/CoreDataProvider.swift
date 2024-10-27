@@ -19,6 +19,23 @@ class CoreDataProvider {
   }
   
   
+  static var preview : CoreDataProvider = {
+    let provider = CoreDataProvider(inMemory: true)
+    let context = provider.context
+    
+    let entertaiment = Budget(context: context)
+    entertaiment.title = "Entertainment"
+    entertaiment.amount = 5000
+    entertaiment.dateCreated = Date()
+    do {
+      try context.save()
+    } catch {
+      print(error)
+    }
+    return provider
+    
+  }()
+  
   init(inMemory: Bool = false) {
     persistentContainer = NSPersistentContainer(name: "PocketPilotModel")
     
