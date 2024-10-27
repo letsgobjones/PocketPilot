@@ -11,12 +11,12 @@ struct BudgetListView: View {
   
   @FetchRequest(sortDescriptors: [])  private var budgets: FetchedResults<Budget>
   var body: some View {
-    VStack {
-      List(budgets) { budgets in
-        Text(budgets.title ?? "")
+
+      List(budgets) { budget in
+        BudgetCellView(budget: budget)
       }
     }
-  }
+
 }
 
 #Preview {
@@ -25,3 +25,4 @@ struct BudgetListView: View {
       .environment(\.managedObjectContext, CoreDataProvider.preview.context)
   }
 }
+
