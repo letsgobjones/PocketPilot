@@ -22,12 +22,11 @@ struct AddBudgetScreen: View {
     var body: some View {
       Form {
         Text("New Budget")
-          .font(.title)
+          .font(.title2)
           .fontWeight(.bold)
         
         TextField("Name", text: $title)
-          .presentationDetents([.medium])
-        
+//          .presentationDetents([.medium])
         TextField("Limit", value: $limit, format: .number)
           .keyboardType(.numberPad)
         
@@ -37,15 +36,11 @@ struct AddBudgetScreen: View {
           Text("Save")
             .frame(maxWidth: .infinity)
         }
+        .padding(.vertical)
         .buttonStyle(.borderedProminent)
         .disabled(!isFormValid)
-        .presentationDetents([.medium])
-
-        
-        
       }
-      
-      
+      .presentationDetents([.medium])
     }
 }
 
