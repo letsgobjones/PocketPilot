@@ -10,21 +10,12 @@ import SwiftUI
 struct BudgetListView: View {
   
   @FetchRequest(sortDescriptors: [])  private var budgets: FetchedResults<Budget>
-  @State private var isPresented: Bool = false
-  
   var body: some View {
     VStack {
-      Text("Budgets will be displayed here...")
-    }.navigationTitle("Pocket Pilot 🧑🏾‍✈️")
-      .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          Button("Add Budget") {
-            isPresented = true
-          }
-        }
-      }.sheet(isPresented: $isPresented, content: {
-        AddBudgetScreen()
-      })
+      List(budgets) { budgets in
+        Text(budgets.title ?? "")
+      }
+    }
   }
 }
 
