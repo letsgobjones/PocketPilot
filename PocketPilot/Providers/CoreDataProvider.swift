@@ -23,10 +23,10 @@ class CoreDataProvider {
     let provider = CoreDataProvider(inMemory: true)
     let context = provider.context
     
-    let entertaiment = Budget(context: context)
-    entertaiment.title = "Entertainment"
-    entertaiment.amount = 5000
-    entertaiment.dateCreated = Date()
+    let entertainment = Budget(context: context)
+    entertainment.title = "Entertainment"
+    entertainment.limit = 5000
+    entertainment.dateCreated = Date()
     do {
       try context.save()
     } catch {
