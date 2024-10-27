@@ -9,14 +9,17 @@ import SwiftUI
 
 struct AddBudgetScreen: View {
   
+  @Environment(\.managedObjectContext) private var context
+  @EnvironmentObject var budgetStore: BudgetStore
+  
+  
   @State private var title: String = ""
   @State private var limit: Double?
-  
+
   
   private var isFormValid: Bool {
     !title.isEmptyOrWhitespace && limit != nil && Double(limit!) > 0
   }
-  
   
   
     var body: some View {
@@ -26,12 +29,16 @@ struct AddBudgetScreen: View {
           .fontWeight(.bold)
         
         TextField("Name", text: $title)
-//          .presentationDetents([.medium])
         TextField("Limit", value: $limit, format: .number)
           .keyboardType(.numberPad)
         
         Button {
-          //action
+          if !budgetStore.exists(context: context, title: title) {
+            budgetStore.saveBudget(title: title, limit: limit)
+          } else {
+            budgetStore.errorMessage = .budgetExists
+            
+          }
         } label: {
           Text("Save")
             .frame(maxWidth: .infinity)
@@ -39,6 +46,8 @@ struct AddBudgetScreen: View {
         .padding(.vertical)
         .buttonStyle(.borderedProminent)
         .disabled(!isFormValid)
+        
+        Text(budgetStore.errorMessage?.localizedDescription ?? "")
       }
       .presentationDetents([.medium])
     }
@@ -47,5 +56,6 @@ struct AddBudgetScreen: View {
 #Preview {
   NavigationStack {
     AddBudgetScreen()
+      .environment(\.managedObjectContext, CoreDataProvider(inMemory: true).context)
   }
 }

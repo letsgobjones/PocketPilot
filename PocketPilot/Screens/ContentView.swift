@@ -19,6 +19,7 @@ struct ContentView: View {
           ToolbarItem(placement: .topBarTrailing) {
             Button("Add Budget") {
               isPresented = true
+              budgetStore.errorMessage = nil
             }
           }
         }.sheet(isPresented: $isPresented, content: {
