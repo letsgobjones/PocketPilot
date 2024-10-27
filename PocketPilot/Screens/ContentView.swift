@@ -8,17 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
+  @EnvironmentObject var budgetStore: BudgetStore
+
+  @State private var isPresented: Bool = false
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+      VStack {
+        BudgetListView()
+      }.navigationTitle("Pocket Pilot 🧑🏾‍✈️")
+        .toolbar {
+          ToolbarItem(placement: .topBarTrailing) {
+            Button("Add Budget") {
+              isPresented = true
+            }
+          }
+        }.sheet(isPresented: $isPresented, content: {
+          AddBudgetScreen()
+        })
     }
-}
+  }
 
 #Preview {
+  NavigationStack {
     ContentView()
+      .environment(\.managedObjectContext, CoreDataProvider.preview.context)
+      .environmentObject(BudgetStore(content: CoreDataProvider.preview.context))
+  }
 }
