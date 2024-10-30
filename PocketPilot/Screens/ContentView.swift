@@ -14,6 +14,8 @@ struct ContentView: View {
     var body: some View {
       VStack {
         BudgetListView()
+        CurrencyPicker()
+          .padding()
       }.navigationTitle("Pocket Pilot 🧑🏾‍✈️")
         .toolbar {
           ToolbarItem(placement: .topBarTrailing) {
@@ -25,6 +27,8 @@ struct ContentView: View {
         }.sheet(isPresented: $isPresented, content: {
           AddBudgetScreen()
         })
+      
+   
     }
   }
 

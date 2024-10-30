@@ -12,7 +12,7 @@ class BudgetStore: ObservableObject {
   private var viewContext: NSManagedObjectContext
   
   @Published var errorMessage: BudgetError? = nil
-  
+  @Published var selectedCurrency : String = "USD"
   
   init (content: NSManagedObjectContext) {
     self.viewContext = content
