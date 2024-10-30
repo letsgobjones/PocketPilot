@@ -57,5 +57,6 @@ struct AddBudgetScreen: View {
   NavigationStack {
     AddBudgetScreen()
       .environment(\.managedObjectContext, CoreDataProvider(inMemory: true).context)
+      .environmentObject(BudgetStore(context: CoreDataProvider.preview.context))
   }
 }

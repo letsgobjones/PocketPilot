@@ -15,7 +15,6 @@ struct CurrencyPickerView: View {
       Picker("Currency", selection: $budgetStore.selectedCurrency) {
                       Text("USD").tag("USD")
                       Text("KRW").tag("KRW")
-                      // Add more currencies as needed
                   }
                   .pickerStyle(SegmentedPickerStyle())
       

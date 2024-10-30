@@ -27,6 +27,7 @@ struct BudgetListView: View {
   NavigationStack {
     BudgetListView()
       .environment(\.managedObjectContext, CoreDataProvider.preview.context)
+      .environmentObject(BudgetStore(context: CoreDataProvider.preview.context))
   }
 }
 

@@ -30,18 +30,8 @@ struct BudgetCellView: View {
 
 
 #Preview {
-  
-   var preview: Budget {
-     let context = CoreDataProvider.preview.context
-     let budget = Budget(context: context)
-       budget.title = "Sample Budget"
-       budget.limit = 500.00
-       return budget
-   }
-  
-  
   NavigationStack {
-    BudgetCellView(budget: preview)
+    BudgetCellView(budget: Budget.preview)
       .environment(\.managedObjectContext, CoreDataProvider.preview.context)
       .environmentObject(BudgetStore(context: CoreDataProvider.preview.context))
 

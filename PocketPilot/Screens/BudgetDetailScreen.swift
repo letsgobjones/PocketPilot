@@ -27,24 +27,8 @@ struct BudgetDetailScreen: View {
 
 
 #Preview {
-  
-  var preview: Budget {
-    let context = CoreDataProvider.preview.context
-    let budget = Budget(context: context)
-    budget.title = "Sample Budget"
-    budget.limit = 500.00
-    
-    let milk = Expense(context: context)
-    milk.title = "Sample Expense"
-    milk.amount = 5.50
-    milk.dateCreated = Date()
-    
-    budget.addToExpenses(milk)
-    return budget
-  }
-  
   NavigationStack {
-    BudgetDetailScreen(budget: preview)
+    BudgetDetailScreen(budget: Budget.preview)
       .environment(\.managedObjectContext, CoreDataProvider.preview.context)
       .environmentObject(BudgetStore(context: CoreDataProvider.preview.context))
   }
