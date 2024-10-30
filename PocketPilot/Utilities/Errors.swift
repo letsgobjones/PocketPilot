@@ -10,13 +10,13 @@
 import Foundation
 
 enum BudgetError: Error, LocalizedError {
-    case budgetExists
+    case budgetAlreadyExists
   case unableToSave
     case unknown
 
     var errorDescription: String? {
         switch self {
-        case .budgetExists:
+        case .budgetAlreadyExists:
             return "A budget with that name already exists."
         case .unknown:
             return "An unknown error occurred."

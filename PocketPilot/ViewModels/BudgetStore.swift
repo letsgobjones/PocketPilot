@@ -14,12 +14,12 @@ class BudgetStore: ObservableObject {
   @Published var errorMessage: BudgetError? = nil
   @Published var selectedCurrency : String = "USD"
   
-  init (content: NSManagedObjectContext) {
-    self.viewContext = content
+  init (context: NSManagedObjectContext) {
+    self.viewContext = context
   }
   
   
-  func exists(context: NSManagedObjectContext, title: String) -> Bool {
+  func budgetExists(context: NSManagedObjectContext, title: String) -> Bool {
     let request = Budget.fetchRequest()
     request.predicate = NSPredicate(format: "title == %@", title)
     
@@ -37,11 +37,28 @@ class BudgetStore: ObservableObject {
     budget.title = title
     budget.limit = limit ?? 0.0
     budget.dateCreated = Date()
+    
+    saveContext()
+  }
+  
+  func addExpense(to budget: Budget, title: String, amount: Double?) {
+    let expense = Expense(context: viewContext)
+    expense.title = title
+    expense.amount = amount ?? 0.0
+    expense.dateCreated = Date()
+    
+    budget.addToExpenses(expense)
+    saveContext()
+    
+  }
+  
+  
+  private func saveContext()  {
     do {
       try viewContext.save()
       errorMessage = nil
     } catch {
-      errorMessage = .unableToSave
+     errorMessage = .unableToSave
     }
   }
 }

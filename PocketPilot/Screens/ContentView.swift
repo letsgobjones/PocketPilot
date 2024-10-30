@@ -36,6 +36,6 @@ struct ContentView: View {
   NavigationStack {
     ContentView()
       .environment(\.managedObjectContext, CoreDataProvider.preview.context)
-      .environmentObject(BudgetStore(content: CoreDataProvider.preview.context))
+      .environmentObject(BudgetStore(context: CoreDataProvider.preview.context))
   }
 }

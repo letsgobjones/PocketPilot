@@ -21,7 +21,7 @@ struct PocketPilotApp: App {
           NavigationStack {
             ContentView()
               .environment(\.managedObjectContext, provider.context)
-              .environmentObject(BudgetStore(content: provider.context))
+              .environmentObject(BudgetStore(context: provider.context))
           }
         }
     }

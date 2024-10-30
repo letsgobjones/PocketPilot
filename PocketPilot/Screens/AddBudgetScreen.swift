@@ -33,10 +33,10 @@ struct AddBudgetScreen: View {
           .keyboardType(.numberPad)
         
         Button {
-          if !budgetStore.exists(context: context, title: title) {
+          if !budgetStore.budgetExists(context: context, title: title) {
             budgetStore.saveBudget(title: title, limit: limit)
           } else {
-            budgetStore.errorMessage = .budgetExists
+            budgetStore.errorMessage = .budgetAlreadyExists
             
           }
         } label: {

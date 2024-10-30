@@ -42,7 +42,7 @@ struct BudgetCellView: View {
   NavigationStack {
     BudgetCellView(budget: preview)
       .environment(\.managedObjectContext, CoreDataProvider.preview.context)
-      .environmentObject(BudgetStore(content: CoreDataProvider.preview.context))
+      .environmentObject(BudgetStore(context: CoreDataProvider.preview.context))
 
       .padding()
   }

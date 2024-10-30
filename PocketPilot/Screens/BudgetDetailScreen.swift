@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BudgetDetailScreen: View {
   @FetchRequest(sortDescriptors: []) private var budgets: FetchedResults<Budget>
-  
+  @EnvironmentObject private var budgetStore: BudgetStore
   let budget: Budget
   
   @State private var title: String = ""
@@ -29,7 +29,8 @@ struct BudgetDetailScreen: View {
           .keyboardType(.numberPad)
         
         Button {
-//add func here
+//          addExpenese()
+          
         } label: {
           Text("Save")
             .frame(maxWidth: .infinity)
