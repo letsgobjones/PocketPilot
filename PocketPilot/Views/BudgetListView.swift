@@ -13,7 +13,11 @@ struct BudgetListView: View {
   var body: some View {
 
       List(budgets) { budget in
-        BudgetCellView(budget: budget)
+        NavigationLink {
+          BudgetDetailScreen(budget: budget)
+        } label: {
+          BudgetCellView(budget: budget)
+        }
       }
     }
 
