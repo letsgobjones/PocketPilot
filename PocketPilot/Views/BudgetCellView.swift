@@ -8,7 +8,7 @@
 
 
 import SwiftUI
-import CoreData
+
 
 struct BudgetCellView: View {
   let budget: Budget
