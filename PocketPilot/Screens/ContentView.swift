@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
       VStack {
         BudgetListView()
-        CurrencyPicker()
+        CurrencyPickerView()
           .padding()
       }.navigationTitle("Pocket Pilot 🧑🏾‍✈️")
         .toolbar {

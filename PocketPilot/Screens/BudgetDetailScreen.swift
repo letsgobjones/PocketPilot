@@ -21,23 +21,7 @@ struct BudgetDetailScreen: View {
   
   
   var body: some View {
-    Form {
-      
-      Section("New Expense") {
-        TextField("Title", text: $title)
-        TextField("Amount", value: $amount, format: .number)
-          .keyboardType(.numberPad)
-        
-        Button {
-//          addExpenese()
-          
-        } label: {
-          Text("Save")
-            .frame(maxWidth: .infinity)
-        }.buttonStyle(.borderedProminent)
-          .disabled(!isFormValid)
-      }
-    }.navigationTitle(budget.title ?? "")
+    BudgetDetailFormView(budget: budget).navigationTitle(budget.title ?? "")
   }
 }
 
@@ -45,14 +29,23 @@ struct BudgetDetailScreen: View {
 #Preview {
   
   var preview: Budget {
-    let budget = Budget(context: CoreDataProvider.preview.context)
+    let context = CoreDataProvider.preview.context
+    let budget = Budget(context: context)
     budget.title = "Sample Budget"
     budget.limit = 500.00
+    
+    let milk = Expense(context: context)
+    milk.title = "Sample Expense"
+    milk.amount = 5.50
+    milk.dateCreated = Date()
+    
+    budget.addToExpenses(milk)
     return budget
   }
   
   NavigationStack {
     BudgetDetailScreen(budget: preview)
       .environment(\.managedObjectContext, CoreDataProvider.preview.context)
+      .environmentObject(BudgetStore(context: CoreDataProvider.preview.context))
   }
 }

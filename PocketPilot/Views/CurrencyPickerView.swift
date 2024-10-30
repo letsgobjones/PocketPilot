@@ -1,5 +1,5 @@
 //
-//  CurrencyPicker.swift
+//  CurrencyPickerView.swift
 //  PocketPilot
 //
 //  Created by Brandon Jones on 10/30/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CurrencyPicker: View {
+struct CurrencyPickerView: View {
   
   @EnvironmentObject var budgetStore: BudgetStore
   
@@ -24,9 +24,8 @@ struct CurrencyPicker: View {
 
 #Preview {
   NavigationStack {
-    CurrencyPicker()
+    CurrencyPickerView()
       .environmentObject(BudgetStore(context: CoreDataProvider.preview.context))
-
     
   }
 }

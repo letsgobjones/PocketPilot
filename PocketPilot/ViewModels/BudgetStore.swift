@@ -49,7 +49,6 @@ class BudgetStore: ObservableObject {
     
     budget.addToExpenses(expense)
     saveContext()
-    
   }
   
   
