@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+  @Environment(\.managedObjectContext) private var viewContext
   @EnvironmentObject var budgetStore: BudgetStore
 
   @State private var isPresented: Bool = false
@@ -35,7 +36,8 @@ struct ContentView: View {
 #Preview {
   NavigationStack {
     ContentView()
-      .environment(\.managedObjectContext, CoreDataProvider.preview.context)
-      .environmentObject(BudgetStore(context: CoreDataProvider.preview.context))
   }
+  .environmentObject(BudgetStore())
+  .environment(\.managedObjectContext, CoreDataProvider.preview.context)
+
 }

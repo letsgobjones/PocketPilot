@@ -24,7 +24,6 @@ struct CurrencyPickerView: View {
 #Preview {
   NavigationStack {
     CurrencyPickerView()
-      .environmentObject(BudgetStore(context: CoreDataProvider.preview.context))
-    
   }
+  .environmentObject(BudgetStore())
 }

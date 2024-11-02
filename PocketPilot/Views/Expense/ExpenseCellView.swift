@@ -24,8 +24,9 @@ struct ExpenseCellView: View {
 #Preview {
   NavigationStack {
     ExpenseCellView(expense: Budget.preview.expenses?.allObjects.first as! Expense)
-      .environment(\.managedObjectContext, CoreDataProvider.preview.context)
-      .environmentObject(BudgetStore())
                 .padding()
   }
+  .environmentObject(BudgetStore())
+  .environment(\.managedObjectContext, CoreDataProvider.preview.context)
+
 }
