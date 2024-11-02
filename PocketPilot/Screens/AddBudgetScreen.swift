@@ -9,54 +9,57 @@ import SwiftUI
 
 struct AddBudgetScreen: View {
   
-  @Environment(\.managedObjectContext) private var context
+  //  @Environment(\.managedObjectContext) private var context
+  @Environment(\.managedObjectContext) private var viewContext
+  
   @EnvironmentObject var budgetStore: BudgetStore
   
   
   @State private var title: String = ""
   @State private var limit: Double?
-
+  
   
   private var isFormValid: Bool {
     !title.isEmptyOrWhitespace && limit != nil && Double(limit!) > 0
   }
   
   
-    var body: some View {
-      Form {
-        Text("New Budget")
-          .font(.title2)
-          .fontWeight(.bold)
-        
-        TextField("Name", text: $title)
-        TextField("Limit", value: $limit, format: .number)
-          .keyboardType(.numberPad)
-        
-        Button {
-          if !budgetStore.budgetExists(context: context, title: title) {
-            budgetStore.saveBudget(title: title, limit: limit)
-          } else {
-            budgetStore.errorMessage = .budgetAlreadyExists
-            
-          }
-        } label: {
-          Text("Save")
-            .frame(maxWidth: .infinity)
+  var body: some View {
+    Form {
+      Text("New Budget")
+        .font(.title2)
+        .fontWeight(.bold)
+      
+      TextField("Name", text: $title)
+      TextField("Limit", value: $limit, format: .number)
+        .keyboardType(.numberPad)
+      
+      Button {
+        if !budgetStore.budgetExists(context: viewContext, title: title) {
+          budgetStore.saveBudget(title: title, limit: limit, context: viewContext)
+        } else {
+          budgetStore.errorMessage = .budgetAlreadyExists
+          
         }
-        .padding(.vertical)
-        .buttonStyle(.borderedProminent)
-        .disabled(!isFormValid)
-        
-        Text(budgetStore.errorMessage?.localizedDescription ?? "")
+      } label: {
+        Text("Save")
+          .frame(maxWidth: .infinity)
       }
-      .presentationDetents([.medium])
+      .padding(.vertical)
+      .buttonStyle(.borderedProminent)
+      .disabled(!isFormValid)
+      
+      Text(budgetStore.errorMessage?.localizedDescription ?? "")
     }
+    .presentationDetents([.medium])
+  }
 }
 
 #Preview {
   NavigationStack {
     AddBudgetScreen()
-      .environment(\.managedObjectContext, CoreDataProvider(inMemory: true).context)
-      .environmentObject(BudgetStore(context: CoreDataProvider.preview.context))
   }
+  .environmentObject(BudgetStore())
+  .environment(\.managedObjectContext, CoreDataProvider(inMemory: true).context)
+  
 }
