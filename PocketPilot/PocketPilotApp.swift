@@ -9,20 +9,13 @@ import SwiftUI
 
 @main
 struct PocketPilotApp: App {
-  
-  let provider: CoreDataProvider
-  
-  init() {
-    provider = CoreDataProvider()
-  }
-  
     var body: some Scene {
         WindowGroup {
-          NavigationStack {
-            ContentView()
-              .environment(\.managedObjectContext, provider.context)
-              .environmentObject(BudgetStore(context: provider.context))
-          }
+            NavigationStack {
+                ContentView()
+            }
+            .environmentObject(BudgetStore())
+            .environment(\.managedObjectContext, CoreDataProvider().context)
         }
     }
 }
