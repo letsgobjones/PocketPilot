@@ -5,59 +5,50 @@
 //  Created by Brandon Jones on 10/27/24.
 //
 
-import Foundation
+import SwiftUI
 import CoreData
 
 class BudgetStore: ObservableObject {
-  private var viewContext: NSManagedObjectContext
-  
+  @Environment(\.managedObjectContext) private var viewContext
   @Published var errorMessage: BudgetError? = nil
   @Published var selectedCurrency : String = "USD"
-  
-  init (context: NSManagedObjectContext) {
-    self.viewContext = context
-  }
-  
   
   func budgetExists(context: NSManagedObjectContext, title: String) -> Bool {
     let request = Budget.fetchRequest()
     request.predicate = NSPredicate(format: "title == %@", title)
-    
     do {
-     let results = try context.fetch(request)
+      let results = try context.fetch(request)
       return !results.isEmpty
     } catch {
       return false
     }
   }
   
-  
-  func saveBudget(title: String, limit: Double?)  {
-    let budget = Budget(context: viewContext)
+  func saveBudget(title: String, limit: Double?, context: NSManagedObjectContext )  {
+    let budget = Budget(context: context)
     budget.title = title
     budget.limit = limit ?? 0.0
     budget.dateCreated = Date()
     
-    saveContext()
+    saveContext(context)
   }
   
-  func addExpense(to budget: Budget, title: String, amount: Double?) {
-    let expense = Expense(context: viewContext)
+  func addExpense(budget: Budget, title: String, amount: Double?, context: NSManagedObjectContext) {
+    let expense = Expense(context: context)
     expense.title = title
     expense.amount = amount ?? 0.0
     expense.dateCreated = Date()
     
     budget.addToExpenses(expense)
-    saveContext()
+    saveContext(context)
   }
   
-  
-  private func saveContext()  {
+  private func saveContext(_ context: NSManagedObjectContext) {
     do {
-      try viewContext.save()
-      errorMessage = nil
+      try context.save()
     } catch {
-     errorMessage = .unableToSave
+      print("Error saving context:", error)
     }
-  }
+  } 
 }
+
