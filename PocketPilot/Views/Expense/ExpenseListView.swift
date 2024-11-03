@@ -11,6 +11,17 @@ import CoreData
 struct ExpenseListView: View {
   let budget: Budget
   @FetchRequest(sortDescriptors: []) private var expenses: FetchedResults<Expense>
+  @EnvironmentObject var budgetStore: BudgetStore
+
+  private var total: Double {
+    return expenses.reduce(0) { result, expense in
+      expense.amount + result}
+  }
+  
+  private var remaining: Double {
+    budget.limit - total
+  }
+  
   
   init(budget: Budget) {
       self.budget = budget
@@ -22,9 +33,28 @@ struct ExpenseListView: View {
   }
 
   var body: some View {
-    List(expenses) { expense in
-      ExpenseCellView(expense: expense)
+    List {
+      VStack() {
+        HStack {
+          Spacer()
+          Text("Total")
+          Text(total, format: .currency(code: budgetStore.selectedCurrency))
+          Spacer()
+        }
+        HStack {
+          Spacer()
+          Text("Remaining")
+          Text(remaining, format: .currency(code: budgetStore.selectedCurrency))
+            .foregroundStyle(remaining < 0 ? .red : .green)
+          Spacer()
+        }
+      }
       
+      ForEach(expenses) { expense in
+//        ExpenseCellView(expense: expense)
+        AmountCellView(item: expense, title: expense.title, value: expense.amount)
+        
+      }
     }
   }
 }
