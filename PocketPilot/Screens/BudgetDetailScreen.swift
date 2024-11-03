@@ -33,7 +33,7 @@ struct BudgetDetailScreen: View {
         
         
         Button(action: {
-          budgetStore.addExpense(budget: budget, title: title, amount: amount, context: viewContext)
+          budgetStore.addExpense(budget: budget, title: title, amount: amount, context: viewContext, tags: selectedTags)
           title = ""
           amount = nil
           selectedTags = []
