@@ -16,9 +16,10 @@ struct BudgetDetailScreen: View {
   
   @State private var title: String = ""
   @State private var amount: Double?
+  @State private var selectedTags: Set<Tag> = []
 
   private var isFormValid: Bool {
-    !title.isEmptyOrWhitespace && amount != nil && Double(amount!) > 0
+    !title.isEmptyOrWhitespace && amount != nil && Double(amount!) > 0 && !selectedTags.isEmpty
   }
   
   var body: some View {
@@ -28,10 +29,14 @@ struct BudgetDetailScreen: View {
         TextField("Amount", value: $amount, format: .number)
           .keyboardType(.numberPad)
         
+        TagsView(selectedTags: $selectedTags)
+        
+        
         Button(action: {
           budgetStore.addExpense(budget: budget, title: title, amount: amount, context: viewContext)
           title = ""
           amount = nil
+          selectedTags = []
         }, label: {
           Text("Save")
             .frame(maxWidth: .infinity)

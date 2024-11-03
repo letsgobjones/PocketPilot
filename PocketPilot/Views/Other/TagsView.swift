@@ -10,10 +10,8 @@ import CoreData
 
 struct TagsView: View {
 @FetchRequest(sortDescriptors: []) private var tags: FetchedResults<Tag>
-  @State private var selectedTags: Set<Tag> = []
+  @Binding var selectedTags: Set<Tag>
   
-//  @Environment(\.managedObjectContext) private var viewContext
-//
     var body: some View {
       ScrollView(.horizontal, showsIndicators: false) {
         HStack {
@@ -37,7 +35,7 @@ struct TagsView: View {
 
 #Preview {
     NavigationStack {
-      TagsView()
+      TagsView(selectedTags: .constant(Set<Tag>()))
     }
     .padding()
     .environment(\.managedObjectContext, CoreDataProvider.preview.context)

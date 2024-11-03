@@ -28,10 +28,6 @@ extension Budget {
     budget.addToExpenses(expense1)
     budget.addToExpenses(expense2)
 
-    
-    
-    
-    
     return budget
   }
 }
