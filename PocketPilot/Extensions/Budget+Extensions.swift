@@ -14,12 +14,24 @@ extension Budget {
     budget.title = "Sample Budget"
     budget.limit = 500.00
     
-    let expense = Expense(context: context)
-    expense.title = "Sample Expense"
-    expense.amount = 10.50
-    expense.dateCreated = Date()
+    let expense1 = Expense(context: context)
+    expense1.title = "Sample Expense 1"
+    expense1.amount = 10.50
+    expense1.dateCreated = Date()
     
-    budget.addToExpenses(expense)
+    let expense2 = Expense(context: context)
+    expense2.title = "Sample Expense 2"
+    expense2.amount = 4.50
+    expense2.dateCreated = Date()
+    
+    
+    budget.addToExpenses(expense1)
+    budget.addToExpenses(expense2)
+
+    
+    
+    
+    
     return budget
   }
 }
