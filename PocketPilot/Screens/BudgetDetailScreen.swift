@@ -22,6 +22,7 @@ struct BudgetDetailScreen: View {
   }
   
   var body: some View {
+    VStack {
     Form {
       Section("New Expense") {
         TextField("Title", text: $title)
@@ -44,6 +45,12 @@ struct BudgetDetailScreen: View {
       }
     }
     .navigationTitle(budget.title ?? "")
+    .toolbar {
+      ToolbarItem(placement: .principal) {
+        Text(budget.limit, format: .currency(code: budgetStore.selectedCurrency))
+      }
+    }
+    }
   }
 }
 
