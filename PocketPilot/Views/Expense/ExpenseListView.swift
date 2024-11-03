@@ -13,8 +13,8 @@ struct ExpenseListView: View {
   @FetchRequest(sortDescriptors: []) private var expenses: FetchedResults<Expense>
   @EnvironmentObject var budgetStore: BudgetStore
   @Environment(\.managedObjectContext) private var viewContext
-
-
+  
+  
   private var total: Double {
     return expenses.reduce(0) { result, expense in
       expense.amount + result}
@@ -26,14 +26,14 @@ struct ExpenseListView: View {
   
   
   init(budget: Budget) {
-      self.budget = budget
-      _expenses = FetchRequest(
-          entity: Expense.entity(),
-          sortDescriptors: [], 
-          predicate: NSPredicate(format: "budget == %@", budget)
-      )
+    self.budget = budget
+    _expenses = FetchRequest(
+      entity: Expense.entity(),
+      sortDescriptors: [],
+      predicate: NSPredicate(format: "budget == %@", budget)
+    )
   }
-
+  
   var body: some View {
     List {
       VStack() {
@@ -52,16 +52,26 @@ struct ExpenseListView: View {
         }
       }
       
-      ForEach(expenses) { expense in
-        ExpenseCellView(expense: expense)
+      if expenses.isEmpty {
+        HStack {
+          Spacer()
+          Text("Please add an expense to get started.")
+          Spacer()
+        }
+      } else {
         
-      }
-      .onDelete { indexSet in
-        budgetStore.deleteExpense( indexSet, expenses: Array(expenses), context: viewContext)
+        ForEach(expenses) { expense in
+          ExpenseCellView(expense: expense)
+          
+        }
+        .onDelete { indexSet in
+          budgetStore.deleteExpense( indexSet, expenses: Array(expenses), context: viewContext)
+        }
       }
     }
   }
 }
+
 
 #Preview {
   NavigationStack {
