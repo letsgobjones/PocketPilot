@@ -15,8 +15,7 @@ struct BudgetListView: View {
       NavigationLink {
         BudgetDetailScreen(budget: budget)
       } label: {
-//        BudgetCellView(budget: budget)
-        AmountCellView(item: budget, title: budget.title, value: budget.limit)
+        BudgetCellView(budget: budget)
       }
     }
   }

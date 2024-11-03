@@ -39,6 +39,7 @@ struct BudgetDetailScreen: View {
           .disabled(!isFormValid)
       }
       Section("Expenses") {
+        
         ExpenseListView(budget: budget)
       }
     }
@@ -54,44 +55,3 @@ struct BudgetDetailScreen: View {
     .environmentObject(BudgetStore())
     .environment(\.managedObjectContext, CoreDataProvider.preview.context)
 }
-
-
-
-
-
-
-//
-//#Preview {
-//    NavigationStack {
-//      BudgetDetailScreen(budget: Budget.preview)
-//        .environment(\.managedObjectContext, CoreDataProvider(inMemory: true).context)
-//                    .environmentObject(BudgetStore())
-//    }
-//}
-
-
-
-
-
-//struct BudgetDetailScreenContainer: View {
-//
-//    @FetchRequest(sortDescriptors: []) private var budgets: FetchedResults<Budget>
-//
-//    var body: some View {
-//      // Safely unwrap the optional budget
-//              if let groceriesBudget = budgets.first(where: { $0.title == "Groceries" }) {
-//                  BudgetDetailScreen(budget: groceriesBudget)
-//              } else {
-//                  // Handle the case where the "Groceries" budget is not found
-//                  Text("Groceries budget not found") // Or any other appropriate view
-//              }
-//    }
-//}
-//
-//#Preview {
-//    NavigationStack {
-//        BudgetDetailScreen(budget: Budget.preview) // Use Budget.preview directly
-//            .environment(\.managedObjectContext, CoreDataProvider(inMemory: true).context)
-//            .environmentObject(BudgetStore())
-//    }
-//}

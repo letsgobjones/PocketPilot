@@ -12,6 +12,8 @@ struct ExpenseListView: View {
   let budget: Budget
   @FetchRequest(sortDescriptors: []) private var expenses: FetchedResults<Expense>
   @EnvironmentObject var budgetStore: BudgetStore
+  @Environment(\.managedObjectContext) private var viewContext
+
 
   private var total: Double {
     return expenses.reduce(0) { result, expense in
@@ -51,9 +53,11 @@ struct ExpenseListView: View {
       }
       
       ForEach(expenses) { expense in
-//        ExpenseCellView(expense: expense)
-        AmountCellView(item: expense, title: expense.title, value: expense.amount)
+        ExpenseCellView(expense: expense)
         
+      }
+      .onDelete { indexSet in
+        budgetStore.deleteExpense( indexSet, expenses: Array(expenses), context: viewContext)
       }
     }
   }
