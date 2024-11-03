@@ -22,7 +22,6 @@ struct BudgetDetailScreen: View {
   }
   
   var body: some View {
-    VStack {
     Form {
       Section("New Expense") {
         TextField("Title", text: $title)
@@ -52,7 +51,7 @@ struct BudgetDetailScreen: View {
     }
     }
   }
-}
+
 
 
 #Preview {

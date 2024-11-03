@@ -52,6 +52,14 @@ class BudgetStore: ObservableObject {
     }
   }
   
+  func deleteBudget(_ indexSet: IndexSet, budgets: [Budget], context: NSManagedObjectContext) {
+    indexSet.forEach { index in
+      let budget = budgets[index]
+      context.delete(budget)
+      
+      saveContext(context)
+    }
+  }
   
   
   private func saveContext(_ context: NSManagedObjectContext) {
