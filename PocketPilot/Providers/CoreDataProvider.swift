@@ -43,11 +43,19 @@ class CoreDataProvider {
     cookie.amount = 2.50
     cookie.dateCreated = Date()
     
-    
-    
     groceries.addToExpenses(milk)
     groceries.addToExpenses(cookie)
 
+    
+    //inset tags
+    
+    let commonTags: [String] = ["Food", "Travel", "Entertainment", "Work", "Health", "Shopping","Transportation", "Personal"]
+    
+    for commonTag in commonTags {
+      let tag = Tag(context: context)
+      tag.name = commonTag
+    }
+    
     do {
       try context.save()
     } catch {
