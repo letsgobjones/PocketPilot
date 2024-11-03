@@ -11,14 +11,37 @@ struct ExpenseCellView: View {
   @EnvironmentObject var budgetStore: BudgetStore
   
   let expense: Expense
-    var body: some View {
+  
+  var body: some View {
+    VStack {
+      
+      
       HStack {
         Text(expense.title ?? "")
         Spacer()
         Text(expense.amount, format: .currency(code: budgetStore.selectedCurrency))
         
       }
+      
+      
+      //      ExpenseTagsView()
+      
+      
+      ScrollView(.horizontal) {
+        HStack {
+          ForEach(Array(expense.tags as? Set<Tag> ?? []), id: \.self) { tag in
+            Text(tag.name ?? "")
+              .font(.caption)
+              .padding(5)
+              .foregroundStyle(.white)
+              .background(.blue)
+              .clipShape(RoundedRectangle(cornerRadius: 16.0, style: .continuous))
+          }
+          
+        }
+      }
     }
+  }
 }
 
 #Preview {
