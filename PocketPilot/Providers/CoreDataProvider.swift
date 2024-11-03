@@ -48,13 +48,24 @@ class CoreDataProvider {
 
     
     //inset tags
-    
-    let commonTags: [String] = ["Food", "Travel", "Entertainment", "Work", "Health", "Shopping","Transportation", "Personal"]
+    let commonTags: [String] = ["Food", "Groceries", "Travel", "Entertainment", "Work", "Health", "Shopping","Transportation", "Personal"]
     
     for commonTag in commonTags {
       let tag = Tag(context: context)
       tag.name = commonTag
+      if let tagName = tag.name, ["Food", "Groceries"].contains(tagName) {
+        cookie.addToTags(tag)
+      }
+      
+      
+      tag.name = commonTag
     }
+    
+    
+    
+    
+    
+    
     
     do {
       try context.save()

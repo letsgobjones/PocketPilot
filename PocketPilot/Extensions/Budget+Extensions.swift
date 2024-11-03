@@ -28,6 +28,17 @@ extension Budget {
     budget.addToExpenses(expense1)
     budget.addToExpenses(expense2)
 
+    let tag1 = Tag(context: context)
+    tag1.name = "Sample Tag 1"
+    
+    let tag2 = Tag(context: context)
+    tag2.name = "Sample Tag 2"
+    
+    expense1.addToTags(tag1)
+    expense2.addToTags(tag2)
+    
+    
+    
     return budget
   }
 }
