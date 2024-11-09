@@ -16,22 +16,9 @@ struct FilterScreen: View {
   
   @State private var startPrice: Double?
   @State private var endPrice: Double?
+  @State private var title: String = ""
   
-  
-//  func filterByPrice() {
-//    guard let startPrice,
-//          let endPrice else { return }
-//    
-//    let request = Expense.fetchRequest()
-//    request.predicate = NSPredicate(format: "amount >= %@ && amount <= %@", NSNumber(value: startPrice), NSNumber(value: endPrice))
-//    do {
-//      filteredExpenses = try viewContext.fetch(request)
-//    } catch {
-//      print(error)
-//    }
-//  }
-    
-    
+
     var body: some View {
       VStack(alignment: .leading, spacing: 20) {
         Section("Filter by Tags") {
@@ -47,16 +34,20 @@ struct FilterScreen: View {
           TextField("Start Price", value: $startPrice, format: .number)
           TextField("End Price", value: $endPrice, format: .number)
           
-          Button {
+          ActionButton(action: {
             filteredExpenses = budgetStore.filterByPrice(startPrice: startPrice, endPrice: endPrice, context: viewContext)
-          } label: {
-            Text("Search")
-              .frame(maxWidth: .infinity)
-          }
-          .buttonStyle(.borderedProminent)
+          }, label: "Search")
         }
         
         
+        
+        
+        
+        Section("Filter by Title") {
+          ActionButton(action: {
+            //
+          }, label: "Search")
+        }
         
         List(filteredExpenses) { expense in
           ExpenseCellView(expense: expense)
@@ -67,14 +58,11 @@ struct FilterScreen: View {
         
         HStack {
           Spacer()
-          Button {
+          
+          ActionButton(action: {
             selectedTags.removeAll()
             filteredExpenses = expenses.map { $0 }
-          } label: {
-            Text("Show All")
-              .frame(maxWidth: .infinity)
-          }
-          .buttonStyle(.borderedProminent)
+          }, label: "Show All")
           Spacer()
         }
         
