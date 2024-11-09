@@ -63,6 +63,20 @@ class BudgetStore: ObservableObject {
     }
   }
   
+
+  func filterTags(selectedTags: Set<Tag>, context: NSManagedObjectContext) -> [Expense] {
+      let selectedTagNames = selectedTags.map { $0.name }
+      let request = Expense.fetchRequest()
+      request.predicate = NSPredicate(format: "ANY tags.name IN %@", selectedTagNames)
+      do {
+          return try context.fetch(request)
+      } catch {
+          print(error)
+          return []
+      }
+  }
+  
+  
   
   private func saveContext(_ context: NSManagedObjectContext) {
     do {
