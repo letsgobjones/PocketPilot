@@ -22,16 +22,26 @@ struct FilterScreen: View {
   @State private var selectedSortOptions: SortingOptions? = nil
 
   
- 
-  
+
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
       List {
+        
         Section("Sort") {
           Picker("Sort Options", selection: $selectedSortOptions) {
-            
+            Text("Select").tag(Optional<SortingOptions>(nil))
+            ForEach(SortingOptions.allCases) { option in
+              Text(option.title)
+                .tag(Optional(option))
+              
+            }
+          }.onChange(of: selectedSortOptions) {
+            filteredExpenses = budgetStore.performSort(selectedSortOptions: selectedSortOptions, context: viewContext)
           }
         }
+        
+        
+        
         Section("Filter by Tags") {
           TagsView(selectedTags: $selectedTags)
             .onChange(of: selectedTags) { _, _ in
@@ -68,15 +78,14 @@ struct FilterScreen: View {
         
         
         
-        
-        
-        
-        ForEach(filteredExpenses) { expense in
-          ExpenseCellView(expense: expense)
+        Section("Expenses") {
+          
+          
+          ForEach(filteredExpenses) { expense in
+            ExpenseCellView(expense: expense)
+          }
+          .listStyle(PlainListStyle())
         }
-        .listStyle(PlainListStyle())
-        
-        Spacer()
       }
       .listStyle(PlainListStyle())
       .navigationTitle("Filter")

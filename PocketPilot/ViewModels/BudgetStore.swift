@@ -24,6 +24,7 @@ class BudgetStore: ObservableObject {
     }
   }
   
+  //CRUD
   func saveBudget(title: String, limit: Double?, context: NSManagedObjectContext )  {
     let budget = Budget(context: context)
     budget.title = title
@@ -64,37 +65,22 @@ class BudgetStore: ObservableObject {
   }
   
   
-  private func saveContext(_ context: NSManagedObjectContext) {
-    do {
-      try context.save()
-    } catch {
-      print("Error saving context:", error)
-    }
-  }
+
   
-  
-  
+  //Filter
   func filterByTitle(title: String, context: NSManagedObjectContext) -> [Expense] {
     let request = Expense.fetchRequest()
     request.predicate = NSPredicate(format: "title BEGINSWITH %@", title)
-    do {
-      return try context.fetch(request)
-    } catch {
-      print(error)
-      return []
-    }
+
+    return performFetch(request: request, context: context)
   }
   
   
   func filterByDate(startDate: Date, endDate: Date, context: NSManagedObjectContext) -> [Expense] {
     let request = Expense.fetchRequest()
     request.predicate = NSPredicate(format: "dateCreated >= %@ && dateCreated <= %@", startDate as NSDate, endDate as NSDate)
-    do {
-      return try context.fetch(request)
-    } catch {
-      print(error)
-      return []
-    }
+  
+    return performFetch(request: request, context: context)
   }
   
   
@@ -102,23 +88,15 @@ class BudgetStore: ObservableObject {
   func filterTags(selectedTags: Set<Tag>, context: NSManagedObjectContext) -> [Expense] {
     guard !selectedTags.isEmpty else {
       let request = Expense.fetchRequest()
-      do {
-        return try context.fetch(request)
-      } catch {
-        print(error)
-        return []
-      }
+      
+      return performFetch(request: request, context: context)
     }
     
     let selectedTagNames = selectedTags.map { $0.name }
     let request = Expense.fetchRequest()
     request.predicate = NSPredicate(format: "ANY tags.name IN %@", selectedTagNames)
-    do {
-      return try context.fetch(request)
-    } catch {
-      print(error)
-      return []
-    }
+    
+    return performFetch(request: request, context: context)
   }
   
   
@@ -128,21 +106,40 @@ class BudgetStore: ObservableObject {
     
     let request = Expense.fetchRequest()
     request.predicate = NSPredicate(format: "amount >= %@ && amount <= %@", NSNumber(value: startPrice), NSNumber(value: endPrice))
-    do {
-      return try context.fetch(request)
-    } catch {
-      print(error)
-      return []
-    }
+    
+    return performFetch(request: request, context: context)
+  }
+  
+  
+  //Sort
+  
+  func performSort(selectedSortOptions: SortingOptions?, context: NSManagedObjectContext)-> [Expense]  {
+    guard let sortOption = selectedSortOptions else { return [] }
+    
+    let request = Expense.fetchRequest()
+    request.sortDescriptors = [NSSortDescriptor(key: sortOption.key, ascending: true)]
+    
+    return performFetch(request: request, context: context)
   }
   
   
   
+  //Utilities
+  private func saveContext(_ context: NSManagedObjectContext) {
+    do {
+      try context.save()
+    } catch {
+      print("Error saving context:", error)
+    }
+  }
   
-  
-  
-  
-  
-  
+  func performFetch(request: NSFetchRequest<Expense>, context: NSManagedObjectContext) -> [Expense] {
+      do {
+          return try context.fetch(request)
+      } catch {
+          print(error)
+          return []
+      }
+  }
 }
 
