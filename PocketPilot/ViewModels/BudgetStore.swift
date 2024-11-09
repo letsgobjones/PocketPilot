@@ -85,6 +85,20 @@ class BudgetStore: ObservableObject {
     }
   }
   
+  
+  func filterByDate(startDate: Date, endDate: Date, context: NSManagedObjectContext) -> [Expense] {
+    let request = Expense.fetchRequest()
+    request.predicate = NSPredicate(format: "dateCreated >= %@ && dateCreated <= %@", startDate as NSDate, endDate as NSDate)
+    do {
+      return try context.fetch(request)
+    } catch {
+      print(error)
+      return []
+    }
+  }
+  
+  
+  
   func filterTags(selectedTags: Set<Tag>, context: NSManagedObjectContext) -> [Expense] {
     guard !selectedTags.isEmpty else {
       let request = Expense.fetchRequest()

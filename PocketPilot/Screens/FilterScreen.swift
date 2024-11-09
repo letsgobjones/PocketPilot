@@ -17,9 +17,15 @@ struct FilterScreen: View {
   @State private var startPrice: Double?
   @State private var endPrice: Double?
   @State private var title: String = ""
+  @State private var startDate = Date()
+  @State private var endDate = Date()
   
-    var body: some View {
-      VStack(alignment: .leading, spacing: 20) {
+
+  
+  var body: some View {
+    VStack(alignment: .leading, spacing: 20) {
+      List {
+        
         Section("Filter by Tags") {
           TagsView(selectedTags: $selectedTags)
             .onChange(of: selectedTags) { _, _ in
@@ -38,10 +44,6 @@ struct FilterScreen: View {
           }, label: "Search")
         }
         
-        
-        
-        
-        
         Section("Filter by Title") {
           TextField("Title", text: $title)
           ActionButton(action: {
@@ -52,31 +54,43 @@ struct FilterScreen: View {
         
         
         
+        Section("Filter by Date") {
+          DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
+          DatePicker("End Date", selection: $endDate, displayedComponents: .date)
+          ActionButton(action: {
+            filteredExpenses = budgetStore.filterByDate(startDate: startDate, endDate: endDate, context: viewContext)
+          }, label: "Search")
+        }
         
         
         
-        List(filteredExpenses) { expense in
+        
+        
+        
+        ForEach(filteredExpenses) { expense in
           ExpenseCellView(expense: expense)
         }
         .listStyle(PlainListStyle())
         
         Spacer()
-        
-        HStack {
-          Spacer()
-          
-          ActionButton(action: {
-            selectedTags.removeAll()
-            filteredExpenses = expenses.map { $0 }
-          }, label: "Show All")
-          Spacer()
-        }
-        
       }
-      .padding()
+      .listStyle(PlainListStyle())
       .navigationTitle("Filter")
+      
+      HStack {
+        Spacer()
+        
+        ActionButton(action: {
+          selectedTags.removeAll()
+          filteredExpenses = expenses.map { $0 }
+        }, label: "Show All")
+        Spacer()
+      }
+      
     }
+    .padding()
   }
+}
 
 
 #Preview {
