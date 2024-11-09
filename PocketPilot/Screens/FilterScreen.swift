@@ -18,7 +18,6 @@ struct FilterScreen: View {
   @State private var endPrice: Double?
   @State private var title: String = ""
   
-
     var body: some View {
       VStack(alignment: .leading, spacing: 20) {
         Section("Filter by Tags") {
@@ -44,10 +43,17 @@ struct FilterScreen: View {
         
         
         Section("Filter by Title") {
+          TextField("Title", text: $title)
           ActionButton(action: {
-            //
+            filteredExpenses = budgetStore.filterByTitle(title: title, context: viewContext)
           }, label: "Search")
         }
+        
+        
+        
+        
+        
+        
         
         List(filteredExpenses) { expense in
           ExpenseCellView(expense: expense)

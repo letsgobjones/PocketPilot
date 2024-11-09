@@ -63,27 +63,48 @@ class BudgetStore: ObservableObject {
     }
   }
   
-
+  
+  private func saveContext(_ context: NSManagedObjectContext) {
+    do {
+      try context.save()
+    } catch {
+      print("Error saving context:", error)
+    }
+  }
+  
+  
+  
+  func filterByTitle(title: String, context: NSManagedObjectContext) -> [Expense] {
+    let request = Expense.fetchRequest()
+    request.predicate = NSPredicate(format: "title BEGINSWITH %@", title)
+    do {
+      return try context.fetch(request)
+    } catch {
+      print(error)
+      return []
+    }
+  }
+  
   func filterTags(selectedTags: Set<Tag>, context: NSManagedObjectContext) -> [Expense] {
     guard !selectedTags.isEmpty else {
-            let request = Expense.fetchRequest()
-            do {
-                return try context.fetch(request)
-            } catch {
-                print(error)
-                return []
-            }
-        }
-    
-      let selectedTagNames = selectedTags.map { $0.name }
       let request = Expense.fetchRequest()
-      request.predicate = NSPredicate(format: "ANY tags.name IN %@", selectedTagNames)
       do {
-          return try context.fetch(request)
+        return try context.fetch(request)
       } catch {
-          print(error)
-          return []
+        print(error)
+        return []
       }
+    }
+    
+    let selectedTagNames = selectedTags.map { $0.name }
+    let request = Expense.fetchRequest()
+    request.predicate = NSPredicate(format: "ANY tags.name IN %@", selectedTagNames)
+    do {
+      return try context.fetch(request)
+    } catch {
+      print(error)
+      return []
+    }
   }
   
   
@@ -100,7 +121,6 @@ class BudgetStore: ObservableObject {
       return []
     }
   }
-    
   
   
   
@@ -108,12 +128,7 @@ class BudgetStore: ObservableObject {
   
   
   
-  private func saveContext(_ context: NSManagedObjectContext) {
-    do {
-      try context.save()
-    } catch {
-      print("Error saving context:", error)
-    }
-  } 
+  
+  
 }
 
