@@ -46,6 +46,17 @@ class CoreDataProvider {
     groceries.addToExpenses(milk)
     groceries.addToExpenses(cookie)
 
+    ///list of expenses
+    let foodItems = ["Ice Cream", "Burger", "Pizza", "Popcorn", "Frozen Yogurt", "Sandwich", "French Fries", "Noodles", "Soup", "Salad", "Sushi", "Tacos"]
+    for foodItem in foodItems {
+      let expense = Expense(context: context)
+      expense.title = foodItem
+      expense.amount = Double.random(in: 8...100)
+      expense.dateCreated = Date()
+      expense.budget = groceries
+//      expense.tags = ["Food", "Groceries"]
+    }
+    
     
     //inset tags
     let commonTags: [String] = ["Food", "Groceries", "Travel", "Entertainment", "Work", "Health", "Shopping","Transportation", "Personal"]
