@@ -17,9 +17,10 @@ struct TagsView: View {
         HStack {
           ForEach(tags) { tag in
            Text(tag.name ?? "")
-              .padding()
+              .padding(.vertical, 5.0)
+              .padding(.horizontal, 10.0)
               .background(selectedTags.contains(tag) ? Color.blue : Color.gray)
-              .clipShape(RoundedRectangle(cornerRadius: 16.0, style: .continuous))
+              .clipShape(RoundedRectangle(cornerRadius: 8.0, style: .continuous))
               .onTapGesture {
                 if selectedTags.contains(tag) {
                   selectedTags.remove(tag)

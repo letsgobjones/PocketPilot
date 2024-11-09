@@ -61,6 +61,7 @@ struct FilterScreen: View {
         List(filteredExpenses) { expense in
           ExpenseCellView(expense: expense)
         }
+        .listStyle(PlainListStyle())
         
         Spacer()
         

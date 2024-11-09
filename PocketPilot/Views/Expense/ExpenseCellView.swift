@@ -32,10 +32,11 @@ struct ExpenseCellView: View {
           ForEach(Array(expense.tags as? Set<Tag> ?? []), id: \.self) { tag in
             Text(tag.name ?? "")
               .font(.caption)
-              .padding(5)
+              .padding(.vertical, 5.0)
+              .padding(.horizontal, 10.0)
               .foregroundStyle(.white)
               .background(.blue)
-              .clipShape(RoundedRectangle(cornerRadius: 16.0, style: .continuous))
+              .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
           }
           
         }
