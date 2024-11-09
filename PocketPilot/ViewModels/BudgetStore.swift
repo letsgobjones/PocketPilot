@@ -87,6 +87,26 @@ class BudgetStore: ObservableObject {
   }
   
   
+  func filterByPrice(startPrice: Double?, endPrice: Double?, context: NSManagedObjectContext) -> [Expense] {
+    guard let startPrice,
+          let endPrice else { return [] }
+    
+    let request = Expense.fetchRequest()
+    request.predicate = NSPredicate(format: "amount >= %@ && amount <= %@", NSNumber(value: startPrice), NSNumber(value: endPrice))
+    do {
+      return try context.fetch(request)
+    } catch {
+      print(error)
+      return []
+    }
+  }
+    
+  
+  
+  
+  
+  
+  
   
   private func saveContext(_ context: NSManagedObjectContext) {
     do {
