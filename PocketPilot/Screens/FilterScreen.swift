@@ -36,6 +36,7 @@ struct FilterScreen: View {
       HStack {
         Spacer()
         Button("Show All") {
+          selectedTags.removeAll()
           filteredExpenses = expenses.map { $0 }
           
         }

@@ -65,6 +65,16 @@ class BudgetStore: ObservableObject {
   
 
   func filterTags(selectedTags: Set<Tag>, context: NSManagedObjectContext) -> [Expense] {
+    guard !selectedTags.isEmpty else {
+            let request = Expense.fetchRequest()
+            do {
+                return try context.fetch(request)
+            } catch {
+                print(error)
+                return []
+            }
+        }
+    
       let selectedTagNames = selectedTags.map { $0.name }
       let request = Expense.fetchRequest()
       request.predicate = NSPredicate(format: "ANY tags.name IN %@", selectedTagNames)
