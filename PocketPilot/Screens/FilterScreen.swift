@@ -12,6 +12,8 @@ struct FilterScreen: View {
   @Environment(\.managedObjectContext) private var viewContext
   @State private var selectedTags: Set<Tag> = []
   @State private var filteredExpenses: [Expense] = []
+  @FetchRequest(sortDescriptors: []) private var expenses: FetchedResults<Expense>
+  
   
   var body: some View {
     VStack(alignment: .leading) {
@@ -23,18 +25,28 @@ struct FilterScreen: View {
             )
           }
       }
+      
+      List(filteredExpenses) { expense in
+        ExpenseCellView(expense: expense)
         
-        List(filteredExpenses) { expense in
-          ExpenseCellView(expense: expense)
-
+      }
+      
+      Spacer()
+      
+      HStack {
+        Spacer()
+        Button("Show All") {
+          filteredExpenses = expenses.map { $0 }
+          
         }
-        
         Spacer()
       }
-      .padding()
-      .navigationTitle("Filter")
+      
     }
+    .padding()
+    .navigationTitle("Filter")
   }
+}
 
 
 #Preview {
