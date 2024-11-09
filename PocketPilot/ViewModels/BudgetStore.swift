@@ -113,11 +113,11 @@ class BudgetStore: ObservableObject {
   
   //Sort
   
-  func performSort(selectedSortOptions: SortingOptions?, context: NSManagedObjectContext)-> [Expense]  {
+  func performSort(selectedSortOptions: SortingOptions?, selectedSortDirection: SortingDirection?, context: NSManagedObjectContext)-> [Expense]  {
     guard let sortOption = selectedSortOptions else { return [] }
     
     let request = Expense.fetchRequest()
-    request.sortDescriptors = [NSSortDescriptor(key: sortOption.key, ascending: true)]
+    request.sortDescriptors = [NSSortDescriptor(key: sortOption.key, ascending: selectedSortDirection == .ascending ? true : false)]
     
     return performFetch(request: request, context: context)
   }

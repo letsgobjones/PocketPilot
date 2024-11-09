@@ -20,8 +20,8 @@ struct FilterScreen: View {
   @State private var startDate = Date()
   @State private var endDate = Date()
   @State private var selectedSortOptions: SortingOptions? = nil
+  @State private var selectedSortDirection: SortingDirection = .ascending
 
-  
 
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
@@ -35,12 +35,18 @@ struct FilterScreen: View {
                 .tag(Optional(option))
               
             }
-          }.onChange(of: selectedSortOptions) {
-            filteredExpenses = budgetStore.performSort(selectedSortOptions: selectedSortOptions, context: viewContext)
           }
+
+          Picker("Sorting Direction", selection: $selectedSortDirection) {
+            ForEach(SortingDirection.allCases) { direction in
+              Text(direction.title)
+                .tag(direction)
+            }
+          }
+          ActionButton(action: {
+            filteredExpenses = budgetStore.performSort(selectedSortOptions: selectedSortOptions, selectedSortDirection: selectedSortDirection, context: viewContext)
+          }, label: "Sort")
         }
-        
-        
         
         Section("Filter by Tags") {
           TagsView(selectedTags: $selectedTags)
@@ -76,11 +82,7 @@ struct FilterScreen: View {
           }, label: "Search")
         }
         
-        
-        
         Section("Expenses") {
-          
-          
           ForEach(filteredExpenses) { expense in
             ExpenseCellView(expense: expense)
           }
@@ -90,15 +92,12 @@ struct FilterScreen: View {
       .listStyle(PlainListStyle())
       .navigationTitle("Filter")
       
-      HStack {
-        Spacer()
         
         ActionButton(action: {
           selectedTags.removeAll()
           filteredExpenses = expenses.map { $0 }
         }, label: "Show All")
-        Spacer()
-      }
+
       
     }
     .padding()

@@ -26,13 +26,13 @@ enum BudgetError: Error, LocalizedError {
     }
 }
 
-
 enum SortingOptions: CaseIterable, Identifiable {
   case title
   case date
   
   var id: SortingOptions {
-    return self }
+    return self
+  }
   
   var title: String {
     switch self {
@@ -53,3 +53,20 @@ enum SortingOptions: CaseIterable, Identifiable {
   }
 }
 
+enum SortingDirection: CaseIterable, Identifiable {
+  case ascending
+  case descending
+  
+  var id: SortingDirection {
+    return self
+  }
+  
+  var title: String {
+    switch self {
+    case .ascending:
+      return "Ascending"
+    case .descending:
+      return "Descending"
+    }
+  }
+}
