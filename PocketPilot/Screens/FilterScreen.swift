@@ -19,13 +19,19 @@ struct FilterScreen: View {
   @State private var title: String = ""
   @State private var startDate = Date()
   @State private var endDate = Date()
-  
+  @State private var selectedSortOptions: SortingOptions? = nil
 
+  
+ 
   
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
       List {
-        
+        Section("Sort") {
+          Picker("Sort Options", selection: $selectedSortOptions) {
+            
+          }
+        }
         Section("Filter by Tags") {
           TagsView(selectedTags: $selectedTags)
             .onChange(of: selectedTags) { _, _ in
@@ -50,8 +56,6 @@ struct FilterScreen: View {
             filteredExpenses = budgetStore.filterByTitle(title: title, context: viewContext)
           }, label: "Search")
         }
-        
-        
         
         
         Section("Filter by Date") {

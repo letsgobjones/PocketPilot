@@ -1,5 +1,5 @@
 //
-//  Errors.swift
+//  Enums.swift
 //  PocketPilot
 //
 //  Created by Brandon Jones on 10/27/24.
@@ -25,3 +25,31 @@ enum BudgetError: Error, LocalizedError {
         }
     }
 }
+
+
+enum SortingOptions: CaseIterable, Identifiable {
+  case title
+  case date
+  
+  var id: SortingOptions {
+    return self }
+  
+  var title: String {
+    switch self {
+    case .title:
+      return "Title"
+    case .date:
+      return "Date"
+    }
+  }
+  
+  var key: String {
+    switch self {
+    case .title:
+      return "title"
+    case .date:
+      return "dateCreated"
+    }
+  }
+}
+
