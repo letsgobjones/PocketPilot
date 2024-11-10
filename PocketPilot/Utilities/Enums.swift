@@ -70,3 +70,29 @@ enum SortingDirection: CaseIterable, Identifiable {
     }
   }
 }
+
+
+enum FilterOptions: Identifiable, Equatable {
+case none
+  case byTags(Set<Tag>)
+  case byPriceRange(minPrice: Double?, maxPrice: Double?)
+  case byTitle(String)
+  case byDate(startDate: Date, endDate: Date)
+  
+  
+  var id: String {
+    switch self {
+    case .none:
+      return "none"
+    case .byTags:
+      return "tags"
+    case .byPriceRange:
+      return "princeRane"
+    case .byTitle:
+      return "title"
+    case .byDate:
+      return "date"
+    }
+  }
+  
+}
