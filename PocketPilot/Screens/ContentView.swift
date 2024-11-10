@@ -40,7 +40,9 @@ struct ContentView: View {
           AddBudgetScreen()
         })
         .sheet(isPresented: $isFilterPresented, content: {
-          FilterScreen()
+          NavigationStack {
+            FilterScreen()
+          }
         })
     }
   }
