@@ -65,6 +65,40 @@ class BudgetStore: ObservableObject {
   }
   
   
+  //Filter
+  
+  func performFilter(selectedFilterOption: FilterOptions?, context: NSManagedObjectContext) -> [Expense] {
+    guard let selectedFilterOption = selectedFilterOption else { return [] }
+    
+    let request = Expense.fetchRequest()
+    switch selectedFilterOption {
+    case .none:
+      request.predicate = NSPredicate(value: true)
+    case .byTags(let tags):
+      let tagNames = tags.map { $0.name }
+      request.predicate = NSPredicate(format: "ANY tags.name IN %@", tagNames)
+    case .byPriceRange(let minPrice, let maxPrice):
+      request.predicate = NSPredicate(format: "amount >= %@ && amount <= %@", NSNumber(value: minPrice), NSNumber(value: maxPrice))
+    case .byTitle(let title):
+      request.predicate = NSPredicate(format: "title BEGINSWITH[c] %@", title)
+    case .byDate(let startDate, let endDate):
+      request.predicate = NSPredicate(format: "dateCreated >= %@ && dateCreated <= %@", startDate as NSDate, endDate as NSDate)
+    }
+    
+    return performFetch(request: request, context: context)
+    }
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   
   //Filter
