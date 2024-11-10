@@ -8,12 +8,9 @@
 import SwiftUI
 
 struct AddBudgetScreen: View {
-  
-  //  @Environment(\.managedObjectContext) private var context
   @Environment(\.managedObjectContext) private var viewContext
   
   @EnvironmentObject var budgetStore: BudgetStore
-  
   
   @State private var title: String = ""
   @State private var limit: Double?
@@ -22,7 +19,6 @@ struct AddBudgetScreen: View {
   private var isFormValid: Bool {
     !title.isEmptyOrWhitespace && limit != nil && Double(limit!) > 0
   }
-  
   
   var body: some View {
     Form {

@@ -24,7 +24,6 @@ struct ExpenseListView: View {
     budget.limit - total
   }
   
-  
   init(budget: Budget) {
     self.budget = budget
     _expenses = FetchRequest(
@@ -79,7 +78,7 @@ struct ExpenseListView: View {
   }
   .environmentObject(BudgetStore())
   .environment(\.managedObjectContext, CoreDataProvider.preview.context)
-
+  
 }
 
 

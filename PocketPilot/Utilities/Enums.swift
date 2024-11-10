@@ -26,9 +26,9 @@ enum BudgetError: Error, LocalizedError {
     }
 }
 
-enum SortingOptions: CaseIterable, Identifiable {
-  case title
-  case date
+enum SortingOptions: String, CaseIterable, Identifiable {
+  case title = "title"
+  case date = "dateCreated"
   
   var id: SortingOptions {
     return self
@@ -44,14 +44,9 @@ enum SortingOptions: CaseIterable, Identifiable {
   }
   
   var key: String {
-    switch self {
-    case .title:
-      return "title"
-    case .date:
-      return "dateCreated"
+    rawValue
     }
   }
-}
 
 enum SortingDirection: CaseIterable, Identifiable {
   case ascending

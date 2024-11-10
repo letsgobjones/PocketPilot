@@ -10,14 +10,14 @@ import CoreData
 
 struct BudgetDetailScreen: View {
   @Environment(\.managedObjectContext) private var viewContext
-
+  
   @EnvironmentObject private var budgetStore: BudgetStore
   let budget: Budget
   
   @State private var title: String = ""
   @State private var amount: Double?
   @State private var selectedTags: Set<Tag> = []
-
+  
   private var isFormValid: Bool {
     !title.isEmptyOrWhitespace && amount != nil && Double(amount!) > 0 && !selectedTags.isEmpty
   }
@@ -31,7 +31,6 @@ struct BudgetDetailScreen: View {
         
         TagsView(selectedTags: $selectedTags)
         
-        
         Button(action: {
           budgetStore.addExpense(budget: budget, title: title, amount: amount, context: viewContext, tags: selectedTags)
           title = ""
@@ -44,25 +43,25 @@ struct BudgetDetailScreen: View {
           .disabled(!isFormValid)
       }
       Section("Expenses") {
-        
         ExpenseListView(budget: budget)
       }
     }
+    
     .navigationTitle(budget.title ?? "")
     .toolbar {
       ToolbarItem(placement: .principal) {
         Text(budget.limit, format: .currency(code: budgetStore.selectedCurrency))
       }
     }
-    }
   }
+}
 
 
 
 #Preview {
-    NavigationStack {
-        BudgetDetailScreen(budget: Budget.preview)
-    }
-    .environmentObject(BudgetStore())
-    .environment(\.managedObjectContext, CoreDataProvider.preview.context)
+  NavigationStack {
+    BudgetDetailScreen(budget: Budget.preview)
+  }
+  .environmentObject(BudgetStore())
+  .environment(\.managedObjectContext, CoreDataProvider.preview.context)
 }

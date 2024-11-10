@@ -54,14 +54,14 @@ struct FilterScreen: View {
               
             })
         }
-  
+        
         Section("Filter by Price") {
           TextField("Start Price", value: $startPrice, format: .number)
           TextField("End Price", value: $endPrice, format: .number)
           
           ActionButton(action: {
             guard let startPrice = startPrice,
-                    let endPrice = endPrice else { return }
+                  let endPrice = endPrice else { return }
             selectedFilterOption = .byPriceRange(minPrice: startPrice, maxPrice: endPrice)
             
             
@@ -71,7 +71,7 @@ struct FilterScreen: View {
         Section("Filter by Title") {
           TextField("Title", text: $title)
           ActionButton(action: {
-selectedFilterOption = .byTitle(title)
+            selectedFilterOption = .byTitle(title)
           }, label: "Search")
         }
         
@@ -80,7 +80,7 @@ selectedFilterOption = .byTitle(title)
           DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
           DatePicker("End Date", selection: $endDate, displayedComponents: .date)
           ActionButton(action: {
-selectedFilterOption = .byDate(startDate: startDate, endDate: endDate)
+            selectedFilterOption = .byDate(startDate: startDate, endDate: endDate)
           }, label: "Search")
         }
         
@@ -91,7 +91,7 @@ selectedFilterOption = .byDate(startDate: startDate, endDate: endDate)
           .listStyle(PlainListStyle())
         }
       }
-
+      
       .onChange(of: selectedFilterOption) { filteredExpenses = budgetStore.performFilter(selectedFilterOption: selectedFilterOption, context: viewContext) }
       
       
