@@ -17,11 +17,13 @@ extension Budget {
     let expense1 = Expense(context: context)
     expense1.title = "Sample Expense 1"
     expense1.amount = 10.50
+    expense1.quantity = 2
     expense1.dateCreated = Date()
     
     let expense2 = Expense(context: context)
     expense2.title = "Sample Expense 2"
     expense2.amount = 4.50
+    expense2.quantity = 5
     expense2.dateCreated = Date()
     
     
