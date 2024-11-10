@@ -41,6 +41,7 @@ struct BudgetDetailScreen: View {
             .frame(maxWidth: .infinity)
         }).buttonStyle(.borderedProminent)
           .disabled(!isFormValid)
+          .padding(.vertical, 5.0)
       }
       Section("Expenses") {
         ExpenseListView(budget: budget)

@@ -12,7 +12,7 @@ struct BudgetListView: View {
   @EnvironmentObject var budgetStore: BudgetStore
   @Environment(\.managedObjectContext) private var viewContext
   
-  private var total: Double {
+  private var totalBudget: Double {
     budgets.reduce(0) { limit,  budget in
       budget.limit + limit
     }
@@ -20,15 +20,13 @@ struct BudgetListView: View {
   
   var body: some View {
     if budgets.isEmpty {
-      Spacer()
-      Text("Please create a budget to get started.")
-      Spacer()
+      ContentUnavailableView("Please create a budget to get started.", systemImage:  "list.clipboard")
     } else {
       List {
         HStack {
           Spacer()
           Text("Total Limit")
-          Text(total, format: .currency(code: budgetStore.selectedCurrency))
+          Text(totalBudget, format: .currency(code: budgetStore.selectedCurrency))
           Spacer()
         }.font(.headline)
         
