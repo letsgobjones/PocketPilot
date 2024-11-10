@@ -18,14 +18,10 @@ struct ExpenseCellView: View {
       
       HStack {
         Text(expense.title ?? "")
+        Text("\(expense.quantity)")
         Spacer()
         Text(expense.amount, format: .currency(code: budgetStore.selectedCurrency))
-        
       }
-      
-      
-      //      ExpenseTagsView()
-      
       
       ScrollView(.horizontal) {
         HStack {
