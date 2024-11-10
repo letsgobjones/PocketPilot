@@ -75,7 +75,7 @@ enum SortingDirection: CaseIterable, Identifiable {
 enum FilterOptions: Identifiable, Equatable {
 case none
   case byTags(Set<Tag>)
-  case byPriceRange(minPrice: Double?, maxPrice: Double?)
+  case byPriceRange(minPrice: Double, maxPrice: Double)
   case byTitle(String)
   case byDate(startDate: Date, endDate: Date)
   

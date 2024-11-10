@@ -14,15 +14,16 @@ struct FilterScreen: View {
   @State private var filteredExpenses: [Expense] = []
   @FetchRequest(sortDescriptors: []) private var expenses: FetchedResults<Expense>
   
-  @State private var startPrice: Double?
-  @State private var endPrice: Double?
+  @State private var startPrice: Double?  //
+  @State private var endPrice: Double?  //
   @State private var title: String = ""
   @State private var startDate = Date()
   @State private var endDate = Date()
   @State private var selectedSortOptions: SortingOptions? = nil
   @State private var selectedSortDirection: SortingDirection = .ascending
-
-
+  @State private var selectedFilterOption: FilterOptions? = nil
+  
+  
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
       List {
@@ -36,7 +37,7 @@ struct FilterScreen: View {
               
             }
           }
-
+          
           Picker("Sorting Direction", selection: $selectedSortDirection) {
             ForEach(SortingDirection.allCases) { direction in
               Text(direction.title)
@@ -50,11 +51,15 @@ struct FilterScreen: View {
         
         Section("Filter by Tags") {
           TagsView(selectedTags: $selectedTags)
-            .onChange(of: selectedTags) { _, _ in
-              filteredExpenses = budgetStore.filterTags(selectedTags: selectedTags,
-                                                        context: viewContext
-              )
-            }
+            .onChange(of: selectedTags, {
+              selectedFilterOption = .byTags(selectedTags)
+              
+            })
+          
+          
+          
+          
+          
         }
         
         Section("Filter by Price") {
@@ -62,14 +67,18 @@ struct FilterScreen: View {
           TextField("End Price", value: $endPrice, format: .number)
           
           ActionButton(action: {
-            filteredExpenses = budgetStore.filterByPrice(startPrice: startPrice, endPrice: endPrice, context: viewContext)
+            guard let startPrice = startPrice,
+                    let endPrice = endPrice else { return }
+            selectedFilterOption = .byPriceRange(minPrice: startPrice, maxPrice: endPrice)
+            
+            
           }, label: "Search")
         }
         
         Section("Filter by Title") {
           TextField("Title", text: $title)
           ActionButton(action: {
-            filteredExpenses = budgetStore.filterByTitle(title: title, context: viewContext)
+selectedFilterOption = .byTitle(title)
           }, label: "Search")
         }
         
@@ -78,7 +87,7 @@ struct FilterScreen: View {
           DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
           DatePicker("End Date", selection: $endDate, displayedComponents: .date)
           ActionButton(action: {
-            filteredExpenses = budgetStore.filterByDate(startDate: startDate, endDate: endDate, context: viewContext)
+selectedFilterOption = .byDate(startDate: startDate, endDate: endDate)
           }, label: "Search")
         }
         
@@ -89,15 +98,23 @@ struct FilterScreen: View {
           .listStyle(PlainListStyle())
         }
       }
+//      .onChange(of: selectedFilterOption) { _, _ in
+//        filteredExpenses = budgetStore.performFilter(selectedFilterOption: selectedFilterOption, context: viewContext)
+//                   
+//                 }
+      
+      .onChange(of: selectedFilterOption) { filteredExpenses = budgetStore.performFilter(selectedFilterOption: selectedFilterOption, context: viewContext) }
+      
+      
       .listStyle(PlainListStyle())
       .navigationTitle("Filter")
       
-        
-        ActionButton(action: {
-          selectedTags.removeAll()
-          filteredExpenses = expenses.map { $0 }
-        }, label: "Show All")
-
+      
+      ActionButton(action: {
+        selectedTags.removeAll()
+        filteredExpenses = expenses.map { $0 }
+      }, label: "Show All")
+      
       
     }
     .padding()
