@@ -34,10 +34,11 @@ class BudgetStore: ObservableObject {
     saveContext(context)
   }
   
-  func addExpense(budget: Budget, title: String, amount: Double?, context: NSManagedObjectContext, tags: Set<Tag>) {
+  func addExpense(budget: Budget, title: String, amount: Double?, quantity: Int?, context: NSManagedObjectContext, tags: Set<Tag>) {
     let expense = Expense(context: context)
     expense.title = title
     expense.amount = amount ?? 0.0
+    expense.quantity = Int16(quantity ?? 0)
     expense.dateCreated = Date()
     
     expense.addToTags(NSSet(set: tags))
