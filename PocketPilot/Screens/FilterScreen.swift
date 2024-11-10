@@ -19,22 +19,20 @@ struct FilterScreen: View {
   @State private var title: String = ""
   @State private var startDate = Date()
   @State private var endDate = Date()
+  
   @State private var selectedSortOptions: SortingOptions? = nil
   @State private var selectedSortDirection: SortingDirection = .ascending
   @State private var selectedFilterOption: FilterOptions? = nil
   
-  
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
       List {
-        
         Section("Sort") {
           Picker("Sort Options", selection: $selectedSortOptions) {
             Text("Select").tag(Optional<SortingOptions>(nil))
             ForEach(SortingOptions.allCases) { option in
               Text(option.title)
                 .tag(Optional(option))
-              
             }
           }
           
@@ -55,13 +53,8 @@ struct FilterScreen: View {
               selectedFilterOption = .byTags(selectedTags)
               
             })
-          
-          
-          
-          
-          
         }
-        
+  
         Section("Filter by Price") {
           TextField("Start Price", value: $startPrice, format: .number)
           TextField("End Price", value: $endPrice, format: .number)
@@ -98,11 +91,7 @@ selectedFilterOption = .byDate(startDate: startDate, endDate: endDate)
           .listStyle(PlainListStyle())
         }
       }
-//      .onChange(of: selectedFilterOption) { _, _ in
-//        filteredExpenses = budgetStore.performFilter(selectedFilterOption: selectedFilterOption, context: viewContext)
-//                   
-//                 }
-      
+
       .onChange(of: selectedFilterOption) { filteredExpenses = budgetStore.performFilter(selectedFilterOption: selectedFilterOption, context: viewContext) }
       
       
@@ -112,7 +101,7 @@ selectedFilterOption = .byDate(startDate: startDate, endDate: endDate)
       
       ActionButton(action: {
         selectedTags.removeAll()
-        filteredExpenses = expenses.map { $0 }
+        selectedFilterOption = FilterOptions.none
       }, label: "Show All")
       
       

@@ -64,9 +64,7 @@ class BudgetStore: ObservableObject {
     }
   }
   
-  
   //Filter
-  
   func performFilter(selectedFilterOption: FilterOptions?, context: NSManagedObjectContext) -> [Expense] {
     guard let selectedFilterOption = selectedFilterOption else { return [] }
     
@@ -88,65 +86,8 @@ class BudgetStore: ObservableObject {
     return performFetch(request: request, context: context)
     }
     
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-  
-  //Filter
-  func filterByTitle(title: String, context: NSManagedObjectContext) -> [Expense] {
-    let request = Expense.fetchRequest()
-    request.predicate = NSPredicate(format: "title BEGINSWITH %@", title)
-
-    return performFetch(request: request, context: context)
-  }
-  
-  
-  func filterByDate(startDate: Date, endDate: Date, context: NSManagedObjectContext) -> [Expense] {
-    let request = Expense.fetchRequest()
-    request.predicate = NSPredicate(format: "dateCreated >= %@ && dateCreated <= %@", startDate as NSDate, endDate as NSDate)
-  
-    return performFetch(request: request, context: context)
-  }
-  
-  
-  
-  func filterTags(selectedTags: Set<Tag>, context: NSManagedObjectContext) -> [Expense] {
-    guard !selectedTags.isEmpty else {
-      let request = Expense.fetchRequest()
-      
-      return performFetch(request: request, context: context)
-    }
-    
-    let selectedTagNames = selectedTags.map { $0.name }
-    let request = Expense.fetchRequest()
-    request.predicate = NSPredicate(format: "ANY tags.name IN %@", selectedTagNames)
-    
-    return performFetch(request: request, context: context)
-  }
-  
-  
-  func filterByPrice(startPrice: Double?, endPrice: Double?, context: NSManagedObjectContext) -> [Expense] {
-    guard let startPrice,
-          let endPrice else { return [] }
-    
-    let request = Expense.fetchRequest()
-    request.predicate = NSPredicate(format: "amount >= %@ && amount <= %@", NSNumber(value: startPrice), NSNumber(value: endPrice))
-    
-    return performFetch(request: request, context: context)
-  }
-  
-  
+ 
   //Sort
-  
   func performSort(selectedSortOptions: SortingOptions?, selectedSortDirection: SortingDirection?, context: NSManagedObjectContext)-> [Expense]  {
     guard let sortOption = selectedSortOptions else { return [] }
     
@@ -155,8 +96,6 @@ class BudgetStore: ObservableObject {
     
     return performFetch(request: request, context: context)
   }
-  
-  
   
   //Utilities
   private func saveContext(_ context: NSManagedObjectContext) {
@@ -177,3 +116,53 @@ class BudgetStore: ObservableObject {
   }
 }
 
+
+
+
+
+
+
+
+
+//Filter
+//func filterByTitle(title: String, context: NSManagedObjectContext) -> [Expense] {
+//  let request = Expense.fetchRequest()
+//  request.predicate = NSPredicate(format: "title BEGINSWITH %@", title)
+//
+//  return performFetch(request: request, context: context)
+//}
+//
+//
+//func filterByDate(startDate: Date, endDate: Date, context: NSManagedObjectContext) -> [Expense] {
+//  let request = Expense.fetchRequest()
+//  request.predicate = NSPredicate(format: "dateCreated >= %@ && dateCreated <= %@", startDate as NSDate, endDate as NSDate)
+//
+//  return performFetch(request: request, context: context)
+//}
+//
+//
+//
+//func filterTags(selectedTags: Set<Tag>, context: NSManagedObjectContext) -> [Expense] {
+//  guard !selectedTags.isEmpty else {
+//    let request = Expense.fetchRequest()
+//    
+//    return performFetch(request: request, context: context)
+//  }
+//  
+//  let selectedTagNames = selectedTags.map { $0.name }
+//  let request = Expense.fetchRequest()
+//  request.predicate = NSPredicate(format: "ANY tags.name IN %@", selectedTagNames)
+//  
+//  return performFetch(request: request, context: context)
+//}
+//
+//
+//func filterByPrice(startPrice: Double?, endPrice: Double?, context: NSManagedObjectContext) -> [Expense] {
+//  guard let startPrice,
+//        let endPrice else { return [] }
+//  
+//  let request = Expense.fetchRequest()
+//  request.predicate = NSPredicate(format: "amount >= %@ && amount <= %@", NSNumber(value: startPrice), NSNumber(value: endPrice))
+//  
+//  return performFetch(request: request, context: context)
+//}
