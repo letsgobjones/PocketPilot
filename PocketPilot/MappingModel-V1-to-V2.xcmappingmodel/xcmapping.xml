@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" standalone="yes"?>
 <!DOCTYPE database SYSTEM "file:///System/Library/DTDs/CoreData.dtd">
 
 <database>
@@ -70,13 +70,14 @@ cxIAAYagXxAPTlNLZXllZEFyY2hpdmVy0QAIAAlUcm9vdIABrxEBpQALAAwAGQA1ADYANwBDAEQARQBG
         <relationship name="entitymappings" type="0/0" destination="XDDEVENTITYMAPPING" idrefs="z104 z102 z113"></relationship>
     </object>
     <object type="XDDEVENTITYMAPPING" id="z104">
+        <attribute name="migrationpolicyclassname" type="string">PocketPilot.MirgationPolicy_V1_to_V2</attribute>
         <attribute name="sourcename" type="string">Budget</attribute>
         <attribute name="mappingtypename" type="string">Undefined</attribute>
         <attribute name="mappingnumber" type="int16">1</attribute>
         <attribute name="destinationname" type="string">Budget</attribute>
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL" idrefs="z103"></relationship>
-        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z114 z117 z115"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z115 z114 z117"></relationship>
         <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z108"></relationship>
     </object>
     <object type="XDDEVATTRIBUTEMAPPING" id="z105">
