@@ -6,10 +6,21 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct BudgetListView: View {
-  @FetchRequest(sortDescriptors: []) private var budgets: FetchedResults<Budget>
-  @FetchRequest(sortDescriptors: []) private var expenses: FetchedResults<Expense>
+  // CHANGE: Add proper fetch request configurations
+  @FetchRequest(
+    entity: Budget.entity(),
+    sortDescriptors: [NSSortDescriptor(keyPath: \Budget.dateCreated, ascending: false)]
+  ) private var budgets: FetchedResults<Budget>
+  
+  @FetchRequest(
+    entity: Expense.entity(),
+    sortDescriptors: [NSSortDescriptor(keyPath: \Expense.dateCreated, ascending: false)]
+  ) private var expenses: FetchedResults<Expense>
+  
+  
   @EnvironmentObject var budgetStore: BudgetStore
   @Environment(\.managedObjectContext) private var viewContext
   
@@ -25,6 +36,7 @@ struct BudgetListView: View {
       }
       return spentAmount
   }
+
   
   var body: some View {
     if budgets.isEmpty {
@@ -43,6 +55,7 @@ struct BudgetListView: View {
             BudgetDetailScreen(budget: budget)
           } label: {
             BudgetCellView(budget: budget)
+            
           }
         }.onDelete { indexSet in
           budgetStore.deleteBudget( indexSet, budgets: Array(budgets), context: viewContext)
