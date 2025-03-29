@@ -10,7 +10,8 @@ import CoreData
 
 
 class CoreDataProvider {
-  
+  static let shared = CoreDataProvider() // ADD: Singleton instance
+
   let persistentContainer: NSPersistentContainer
   
   
@@ -88,12 +89,13 @@ class CoreDataProvider {
     if inMemory {
       persistentContainer.persistentStoreDescriptions.first?.url = URL(filePath: "dev/null")
     }
-    persistentContainer.loadPersistentStores { _, error in
-      if let error {
-        fatalError("Core Data store failed to initialize: \(error)")
+    persistentContainer.loadPersistentStores { description, error in
+        if let error = error {
+          print("Core Data failed to load: \(error.localizedDescription)")
+        }
       }
-    }
-    
+    // ADD: Setup automatic merging
+    context.automaticallyMergesChangesFromParent = true
   }
   
 }
