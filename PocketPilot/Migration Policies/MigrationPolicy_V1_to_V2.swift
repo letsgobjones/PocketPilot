@@ -26,6 +26,11 @@ class MirgationPolicy_V1_to_V2: NSEntityMigrationPolicy {
       if !titles.contains(title) {
         titles.append(title)
       } else {
+        
+        //delete the duplicate
+        //context.delete(result)
+        
+        
         let uniqueTitle = title + "\(index)"
         index += 1
         result.setValue(uniqueTitle, forKey: "title")

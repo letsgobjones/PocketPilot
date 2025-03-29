@@ -103,6 +103,7 @@ class BudgetStore: ObservableObject {
     do {
       try context.save()
     } catch {
+      context.rollback()
       print("Error saving context:", error)
     }
   }
