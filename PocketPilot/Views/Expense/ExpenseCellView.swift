@@ -20,7 +20,7 @@ struct ExpenseCellView: View {
         Text(expense.title ?? "")
         Text("\(expense.quantity)")
         Spacer()
-        Text(expense.amount, format: .currency(code: budgetStore.selectedCurrency))
+        Text(expense.total, format: .currency(code: budgetStore.selectedCurrency))
       }
       
       ScrollView(.horizontal) {
