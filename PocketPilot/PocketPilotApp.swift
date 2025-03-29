@@ -10,10 +10,11 @@ import SwiftUI
 @main
 struct PocketPilotApp: App {
       let tagSeeder: TagsSeeder
-      
+  let coreDataProvider = CoreDataProvider.shared
       init() {
 
-        tagSeeder = TagsSeeder(context: CoreDataProvider().context)
+        tagSeeder = TagsSeeder(context: CoreDataProvider.shared.context)
+
       }
   var body: some Scene {
         WindowGroup {
@@ -35,7 +36,9 @@ struct PocketPilotApp: App {
               }
             
             .environmentObject(BudgetStore())
-            .environment(\.managedObjectContext, CoreDataProvider().context)
+//            .environment(\.managedObjectContext, CoreDataProvider().context)
+            .environment(\.managedObjectContext, CoreDataProvider.shared.context)
+
         }
     }
 }
