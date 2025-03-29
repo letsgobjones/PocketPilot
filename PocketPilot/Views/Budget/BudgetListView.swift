@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BudgetListView: View {
   @FetchRequest(sortDescriptors: []) private var budgets: FetchedResults<Budget>
+  @FetchRequest(sortDescriptors: []) private var expenses: FetchedResults<Expense>
   @EnvironmentObject var budgetStore: BudgetStore
   @Environment(\.managedObjectContext) private var viewContext
   
@@ -16,6 +17,13 @@ struct BudgetListView: View {
     budgets.reduce(0) { limit,  budget in
       budget.limit + limit
     }
+  }
+  
+  private var totalSpent: Double {
+      let spentAmount = expenses.reduce(0) { total, expense in
+          total + (expense.amount * Double(expense.quantity))
+      }
+      return spentAmount
   }
   
   var body: some View {
@@ -38,6 +46,13 @@ struct BudgetListView: View {
           }
         }.onDelete { indexSet in
           budgetStore.deleteBudget( indexSet, budgets: Array(budgets), context: viewContext)
+        }
+        HStack {
+          Spacer()
+          Text("Total Spent")
+          Text(totalSpent, format: .currency(code: budgetStore.selectedCurrency))
+            .foregroundStyle(totalSpent < totalBudget ? .black : .red)
+          Spacer()
         }
       }
     }
