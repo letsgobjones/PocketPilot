@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Budget { 
+extension Budget {
   static var preview: Budget {
     let context = CoreDataProvider.preview.context
     let budget = Budget(context: context)
