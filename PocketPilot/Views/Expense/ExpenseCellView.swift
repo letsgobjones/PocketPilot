@@ -42,10 +42,14 @@ struct ExpenseCellView: View {
 }
 
 #Preview {
-  NavigationStack {
-    ExpenseCellView(expense: Budget.preview.expenses?.allObjects.first as! Expense)
+    NavigationStack {
+        if let expense = Budget.preview.expenses?.allObjects.first as? Expense {
+            ExpenseCellView(expense: expense)
                 .padding()
-  }
+        } else {
+            Text("No expense")
+        }
+    }
   .environmentObject(BudgetStore())
   .environment(\.managedObjectContext, CoreDataProvider.preview.context)
 
