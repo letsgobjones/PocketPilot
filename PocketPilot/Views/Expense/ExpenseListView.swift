@@ -17,7 +17,7 @@ struct ExpenseListView: View {
   
   private var total: Double {
     return expenses.reduce(0) { result, expense in
-      expense.amount + result}
+     result + (expense.amount * Double(expense.quantity))}
   }
   
   private var remaining: Double {
