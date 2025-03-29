@@ -51,7 +51,7 @@ class CoreDataProvider {
     for foodItem in foodItems {
       let expense = Expense(context: context)
       expense.title = foodItem
-      expense.amount = Double.random(in: 8...100)
+      expense.amount = Double.random(in: 1...10)
       expense.quantity = Int16(Int.random(in: 1...10))
       expense.dateCreated = Date()
       expense.budget = groceries
