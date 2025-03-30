@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 extension Budget {
   static var preview: Budget {
@@ -43,4 +44,20 @@ extension Budget {
     
     return budget
   }
+  
+  
+  
+  static func exists(context: NSManagedObjectContext, title: String) -> Bool {
+    let request = Budget.fetchRequest()
+     request.predicate = NSPredicate(format: "title == %@", title)
+     do {
+       let results = try context.fetch(request)
+       return !results.isEmpty
+     } catch {
+       return false
+     }
+   }
+  
+  
+  
 }
