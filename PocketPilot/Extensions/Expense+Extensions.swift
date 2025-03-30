@@ -13,4 +13,16 @@ extension Expense {
   var total: Double {
     amount * Double(quantity)
   }
+  
+  
+  static var preview: Expense {
+    let context = CoreDataProvider.preview.context
+    let expense = Expense(context: context)
+    expense.title = "Sample Expense"
+    expense.amount = 10.50
+    expense.quantity = 2
+    expense.dateCreated = Date()
+    return expense
+  }
+  
 }
