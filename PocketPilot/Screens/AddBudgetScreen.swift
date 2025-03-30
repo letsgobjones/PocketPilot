@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddBudgetScreen: View {
   @Environment(\.managedObjectContext) private var viewContext
-  
+  @Environment(\.dismiss) private var dismiss
 //  @EnvironmentObject var budgetStore: BudgetStore
   @Bindable var budgetStore: BudgetStore
 
@@ -36,6 +36,7 @@ struct AddBudgetScreen: View {
       Button {
         if !Budget.exists(context: viewContext, title: title) {
           budgetStore.saveBudget(title: title, limit: limit, context: viewContext)
+          dismiss()
         } else {
           budgetStore.errorMessage = .budgetAlreadyExists
           
