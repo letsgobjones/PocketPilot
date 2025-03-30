@@ -11,6 +11,7 @@ import Foundation
 
 enum BudgetError: Error, LocalizedError {
     case budgetAlreadyExists
+  case expenseAlreadyExists
   case unableToSave
     case unknown
 
@@ -18,6 +19,8 @@ enum BudgetError: Error, LocalizedError {
         switch self {
         case .budgetAlreadyExists:
             return "A budget with that name already exists."
+        case .expenseAlreadyExists:
+            return "A expense with that name already exists."
         case .unknown:
             return "An unknown error occurred."
         case .unableToSave:
