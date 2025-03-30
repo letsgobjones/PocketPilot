@@ -27,7 +27,7 @@ struct BudgetDetailScreen: View {
   
   var body: some View {
     Form {
-      Section("New Expense") {
+      Section(content: {
         TextField("Title", text: $title)
         TextField("Amount", value: $amount, format: .number)
           .keyboardType(.numberPad)
@@ -36,18 +36,25 @@ struct BudgetDetailScreen: View {
         TagsView(selectedTags: $selectedTags)
         
         Button(action: {
-          budgetStore.addExpense(budget: budget, title: title, amount: amount, quantity: quantity, context: viewContext, tags: selectedTags)
-          title = ""
-          amount = nil
-          quantity = nil
-          selectedTags = []
+          if Expense.exists(context: viewContext, title: title) {
+            budgetStore.addExpense(budget: budget, title: title, amount: amount, quantity: quantity, context: viewContext, tags: selectedTags)
+            title = ""
+            amount = nil
+            quantity = nil
+            selectedTags = []
+          } else {
+            print("Expense with this title already exists")
+          }
         }, label: {
           Text("Save")
             .frame(maxWidth: .infinity)
         }).buttonStyle(.borderedProminent)
           .disabled(!isFormValid)
           .padding(.vertical, 5.0)
-      }
+      }, header: {
+                     Text("New Expense")
+                 })
+                 
       Section("Expenses") {
         ExpenseListView(budget: budget, budgetStore: budgetStore)
       }
