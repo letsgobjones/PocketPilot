@@ -11,7 +11,10 @@ import SwiftUI
 
 
 struct BudgetCellView: View {
-  @EnvironmentObject var budgetStore: BudgetStore
+//  @EnvironmentObject var budgetStore: BudgetStore
+  @Bindable var budgetStore: BudgetStore
+
+
 
   let budget: Budget
   
@@ -28,10 +31,10 @@ struct BudgetCellView: View {
 
 #Preview {
   NavigationStack {
-    BudgetCellView(budget: Budget.preview)
+    BudgetCellView(budgetStore: BudgetStore(), budget: Budget.preview)
       .padding()
   }
-  .environmentObject(BudgetStore())
+//  .environmentObject(BudgetStore())
   .environment(\.managedObjectContext, CoreDataProvider.preview.context)
 
 

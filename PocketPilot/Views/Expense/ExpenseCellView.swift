@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct ExpenseCellView: View {
-  @EnvironmentObject var budgetStore: BudgetStore
+//  @EnvironmentObject var budgetStore: BudgetStore
+  @Bindable var budgetStore: BudgetStore
+
+
   
   let expense: Expense
   
@@ -44,13 +47,13 @@ struct ExpenseCellView: View {
 #Preview {
     NavigationStack {
         if let expense = Budget.preview.expenses?.allObjects.first as? Expense {
-            ExpenseCellView(expense: expense)
+          ExpenseCellView(budgetStore: BudgetStore(), expense: expense)
                 .padding()
         } else {
             Text("No expense")
         }
     }
-  .environmentObject(BudgetStore())
+//  .environmentObject(BudgetStore())
   .environment(\.managedObjectContext, CoreDataProvider.preview.context)
 
 }

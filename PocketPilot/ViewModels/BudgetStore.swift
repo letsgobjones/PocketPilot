@@ -7,9 +7,10 @@
 
 import SwiftUI
 import CoreData
+//import Observation
 
 @Observable
-class BudgetStore: ObservableObject {
+class BudgetStore {
 //  @Environment(\.managedObjectContext) private var viewContext
 //  @Published var errorMessage: BudgetError? = nil
 //  @Published var selectedCurrency : String = "USD"
@@ -17,6 +18,7 @@ class BudgetStore: ObservableObject {
 //  @Environment(\.managedObjectContext) private var viewContext
    var errorMessage: BudgetError? = nil
    var selectedCurrency : String = "USD"
+  
   
   func budgetExists(context: NSManagedObjectContext, title: String) -> Bool {
     let request = Budget.fetchRequest()

@@ -9,7 +9,9 @@ import SwiftUI
 
 struct CurrencyPickerView: View {
   
-  @EnvironmentObject var budgetStore: BudgetStore
+//  @EnvironmentObject var budgetStore: BudgetStore
+  @Bindable var budgetStore: BudgetStore
+
   
   var body: some View {
     Picker("Currency", selection: $budgetStore.selectedCurrency) {
@@ -22,7 +24,9 @@ struct CurrencyPickerView: View {
 
 #Preview {
   NavigationStack {
-    CurrencyPickerView()
+    CurrencyPickerView(budgetStore: BudgetStore())
   }
-  .environmentObject(BudgetStore())
+//  .environmentObject(BudgetStore())
+  .environment(\.managedObjectContext, CoreDataProvider.preview.context)
+
 }

@@ -10,7 +10,10 @@ import SwiftUI
 struct AddBudgetScreen: View {
   @Environment(\.managedObjectContext) private var viewContext
   
-  @EnvironmentObject var budgetStore: BudgetStore
+//  @EnvironmentObject var budgetStore: BudgetStore
+  @Bindable var budgetStore: BudgetStore
+
+
   
   @State private var title: String = ""
   @State private var limit: Double?
@@ -53,9 +56,9 @@ struct AddBudgetScreen: View {
 
 #Preview {
   NavigationStack {
-    AddBudgetScreen()
+    AddBudgetScreen(budgetStore: BudgetStore())
   }
-  .environmentObject(BudgetStore())
+//  .environmentObject(BudgetStore())
   .environment(\.managedObjectContext, CoreDataProvider(inMemory: true).context)
   
 }

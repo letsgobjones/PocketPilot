@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct FilterScreen: View {
-  @EnvironmentObject var budgetStore: BudgetStore
+//  @EnvironmentObject var budgetStore: BudgetStore
+  @Bindable var budgetStore: BudgetStore
+
+
   @Environment(\.managedObjectContext) private var viewContext
   @State private var selectedTags: Set<Tag> = []
   @State private var filteredExpenses: [Expense] = []
@@ -86,7 +89,7 @@ struct FilterScreen: View {
         
         Section("Expenses") {
           ForEach(filteredExpenses) { expense in
-            ExpenseCellView(expense: expense)
+            ExpenseCellView(budgetStore: budgetStore, expense: expense)
           }
           .listStyle(PlainListStyle())
         }
@@ -113,10 +116,10 @@ struct FilterScreen: View {
 
 #Preview {
   NavigationStack {
-    FilterScreen()
+    FilterScreen(budgetStore: BudgetStore())
   }
   .environment(\.managedObjectContext, CoreDataProvider.preview.context)
-  .environmentObject(BudgetStore())
+//  .environmentObject(BudgetStore())
   
   
 }

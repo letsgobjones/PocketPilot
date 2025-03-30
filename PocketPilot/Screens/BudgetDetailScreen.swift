@@ -11,7 +11,9 @@ import CoreData
 struct BudgetDetailScreen: View {
   @Environment(\.managedObjectContext) private var viewContext
   
-  @EnvironmentObject private var budgetStore: BudgetStore
+//  @EnvironmentObject private var budgetStore: BudgetStore
+  var budgetStore = BudgetStore()
+
   let budget: Budget
   
   @State private var title: String = ""
@@ -47,7 +49,7 @@ struct BudgetDetailScreen: View {
           .padding(.vertical, 5.0)
       }
       Section("Expenses") {
-        ExpenseListView(budget: budget)
+        ExpenseListView(budget: budget, budgetStore: budgetStore)
       }
     }
     
@@ -66,6 +68,6 @@ struct BudgetDetailScreen: View {
   NavigationStack {
     BudgetDetailScreen(budget: Budget.preview)
   }
-  .environmentObject(BudgetStore())
+//  .environmentObject(BudgetStore())
   .environment(\.managedObjectContext, CoreDataProvider.preview.context)
 }

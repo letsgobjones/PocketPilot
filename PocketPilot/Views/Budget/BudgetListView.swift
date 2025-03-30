@@ -21,7 +21,10 @@ struct BudgetListView: View {
   ) private var expenses: FetchedResults<Expense>
   
   
-  @EnvironmentObject var budgetStore: BudgetStore
+//  @EnvironmentObject var budgetStore: BudgetStore
+  @Bindable var budgetStore: BudgetStore
+
+
   @Environment(\.managedObjectContext) private var viewContext
   
   private var totalBudget: Double {
@@ -54,7 +57,7 @@ struct BudgetListView: View {
           NavigationLink {
             BudgetDetailScreen(budget: budget)
           } label: {
-            BudgetCellView(budget: budget)
+            BudgetCellView(budgetStore: budgetStore, budget: budget)
             
           }
         }.onDelete { indexSet in
@@ -74,9 +77,9 @@ struct BudgetListView: View {
 
 #Preview {
   NavigationStack {
-    BudgetListView()
+    BudgetListView(budgetStore: BudgetStore())
   }
-  .environmentObject(BudgetStore())
+//  .environmentObject(BudgetStore())
   .environment(\.managedObjectContext, CoreDataProvider.preview.context)
 
 }

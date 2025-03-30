@@ -11,7 +11,10 @@ import CoreData
 struct ExpenseListView: View {
   let budget: Budget
   @FetchRequest(sortDescriptors: []) private var expenses: FetchedResults<Expense>
-  @EnvironmentObject var budgetStore: BudgetStore
+//  @EnvironmentObject var budgetStore: BudgetStore
+  @Bindable var budgetStore: BudgetStore
+
+
   @Environment(\.managedObjectContext) private var viewContext
   @State private var expenseToEdit: Expense?
   
@@ -24,8 +27,10 @@ struct ExpenseListView: View {
     budget.limit - total
   }
   
-  init(budget: Budget) {
+  init(budget: Budget, budgetStore: BudgetStore) {
     self.budget = budget
+    self.budgetStore = budgetStore
+
     _expenses = FetchRequest(
       entity: Expense.entity(),
       sortDescriptors: [],
@@ -60,7 +65,7 @@ struct ExpenseListView: View {
       } else {
         
         ForEach(expenses) { expense in
-          ExpenseCellView(expense: expense)
+          ExpenseCellView(budgetStore: budgetStore, expense: expense)
             .onLongPressGesture {
               expenseToEdit = expense
             }
@@ -78,9 +83,9 @@ struct ExpenseListView: View {
 
 #Preview {
   NavigationStack {
-    ExpenseListView(budget: Budget.preview )
+    ExpenseListView(budget: Budget.preview, budgetStore: BudgetStore())
   }
-  .environmentObject(BudgetStore())
+//  .environmentObject(BudgetStore())
   .environment(\.managedObjectContext, CoreDataProvider.preview.context)
   
 }

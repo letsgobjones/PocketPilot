@@ -9,20 +9,20 @@ import SwiftUI
 
 struct ContentView: View {
   @Environment(\.managedObjectContext) private var viewContext
-  @EnvironmentObject var budgetStore: BudgetStore
+  @Bindable var budgetStore: BudgetStore
 
   @State private var isPresented: Bool = false
   @State private var isFilterPresented: Bool = false
   
     var body: some View {
       VStack {
-        BudgetListView()
+        BudgetListView(budgetStore: budgetStore)
         
         ActionButton(action: {
           isFilterPresented.toggle()
         }, label: "Filter")
    
-        CurrencyPickerView()
+        CurrencyPickerView(budgetStore: budgetStore)
        
       }
       
@@ -37,11 +37,11 @@ struct ContentView: View {
             }
           }
         }.sheet(isPresented: $isPresented, content: {
-          AddBudgetScreen()
+          AddBudgetScreen(budgetStore: budgetStore)
         })
         .sheet(isPresented: $isFilterPresented, content: {
           NavigationStack {
-            FilterScreen()
+            FilterScreen(budgetStore: budgetStore)
           }
         })
     }
@@ -49,9 +49,9 @@ struct ContentView: View {
 
 #Preview {
   NavigationStack {
-    ContentView()
+    ContentView(budgetStore: BudgetStore())
   }
-  .environmentObject(BudgetStore())
+//  .environmentObject(BudgetStore())
   .environment(\.managedObjectContext, CoreDataProvider.preview.context)
 
 }

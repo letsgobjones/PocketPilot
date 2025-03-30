@@ -11,6 +11,7 @@ import SwiftUI
 struct PocketPilotApp: App {
       let tagSeeder: TagsSeeder
   let coreDataProvider = CoreDataProvider.shared
+  let budgetStore = BudgetStore()
       init() {
 
         tagSeeder = TagsSeeder(context: CoreDataProvider.shared.context)
@@ -19,7 +20,7 @@ struct PocketPilotApp: App {
   var body: some Scene {
         WindowGroup {
             NavigationStack {
-                ContentView()
+              ContentView(budgetStore: BudgetStore())
             }
             .task { // If performing asyn, use .task
               let hasSeedData = UserDefaults.standard.bool(forKey: "hasSeedData")
@@ -35,7 +36,7 @@ struct PocketPilotApp: App {
                 }
               }
             
-            .environmentObject(BudgetStore())
+//            .environmentObject(BudgetStore())
 //            .environment(\.managedObjectContext, CoreDataProvider().context)
             .environment(\.managedObjectContext, CoreDataProvider.shared.context)
 
