@@ -24,6 +24,18 @@ class CoreDataProvider {
     let provider = CoreDataProvider(inMemory: true)
     let context = provider.context
     
+    
+    provider.persistentContainer.loadPersistentStores { description, error in
+              if let error = error {
+                  fatalError("Core Data store failed to load: \(error.localizedDescription)")
+              }
+          }
+          
+    
+    
+    
+    
+    
     let entertainment = Budget(context: context)
     entertainment.title = "Entertainment"
     entertainment.limit = 500
@@ -91,13 +103,31 @@ class CoreDataProvider {
       persistentContainer.persistentStoreDescriptions.first?.url = URL(filePath: "dev/null")
     }
     persistentContainer.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-    persistentContainer.loadPersistentStores { description, error in
-        if let error = error {
-          print("Core Data failed to load: \(error.localizedDescription)")
-        }
-      }
+//    persistentContainer.loadPersistentStores { description, error in
+//        if let error = error {
+//          print("Core Data failed to load: \(error.localizedDescription)")
+//        }
+//      }
     // ADD: Setup automatic merging
     persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
   }
   
+}
+
+
+extension CoreDataProvider {
+  
+  
+  // ADD: Function to load stores
+   func loadPersistentStores() async throws {
+       return try await withCheckedThrowingContinuation { continuation in
+           persistentContainer.loadPersistentStores { description, error in
+               if let error = error {
+                   continuation.resume(throwing: error)
+               } else {
+                   continuation.resume()
+               }
+           }
+       }
+   }
 }
