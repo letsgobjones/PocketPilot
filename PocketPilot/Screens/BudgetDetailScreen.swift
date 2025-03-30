@@ -11,9 +11,9 @@ import CoreData
 struct BudgetDetailScreen: View {
   @Environment(\.managedObjectContext) private var viewContext
   
-//  @EnvironmentObject private var budgetStore: BudgetStore
+  //  @EnvironmentObject private var budgetStore: BudgetStore
   var budgetStore = BudgetStore()
-
+  
   let budget: Budget
   
   @State private var title: String = ""
@@ -36,14 +36,14 @@ struct BudgetDetailScreen: View {
         TagsView(selectedTags: $selectedTags)
         
         Button(action: {
-          if Expense.exists(context: viewContext, title: title) {
+          if !Expense.exists(context: viewContext, title: title) {
             budgetStore.addExpense(budget: budget, title: title, amount: amount, quantity: quantity, context: viewContext, tags: selectedTags)
             title = ""
             amount = nil
             quantity = nil
             selectedTags = []
           } else {
-            print("Expense with this title already exists")
+            budgetStore.errorMessage = .expenseAlreadyExists
           }
         }, label: {
           Text("Save")
@@ -52,9 +52,9 @@ struct BudgetDetailScreen: View {
           .disabled(!isFormValid)
           .padding(.vertical, 5.0)
       }, header: {
-                     Text("New Expense")
-                 })
-                 
+        Text("New Expense")
+      })
+      
       Section("Expenses") {
         ExpenseListView(budget: budget, budgetStore: budgetStore)
       }
@@ -75,6 +75,6 @@ struct BudgetDetailScreen: View {
   NavigationStack {
     BudgetDetailScreen(budget: Budget.preview)
   }
-//  .environmentObject(BudgetStore())
+  //  .environmentObject(BudgetStore())
   .environment(\.managedObjectContext, CoreDataProvider.preview.context)
 }
