@@ -75,7 +75,9 @@ struct ExpenseListView: View {
         }
       }
     }.sheet(item: $expenseToEdit) { expenseToEdit in
-      Text("Show Edit Expense Screen")
+      NavigationStack {
+        EditExpenseScreen(budgetStore: budgetStore, expense: expenseToEdit)
+      }
     }
   }
 }
