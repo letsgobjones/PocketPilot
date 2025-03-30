@@ -84,18 +84,20 @@ class CoreDataProvider {
   }()
   
   init(inMemory: Bool = false) {
-    persistentContainer = NSPersistentContainer(name: "PocketPilotModel")
+//    persistentContainer = NSPersistentContainer(name: "PocketPilotModel")
+    persistentContainer = NSPersistentCloudKitContainer(name: "PocketPilotModel")
     
     if inMemory {
       persistentContainer.persistentStoreDescriptions.first?.url = URL(filePath: "dev/null")
     }
+    persistentContainer.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
     persistentContainer.loadPersistentStores { description, error in
         if let error = error {
           print("Core Data failed to load: \(error.localizedDescription)")
         }
       }
     // ADD: Setup automatic merging
-    context.automaticallyMergesChangesFromParent = true
+    persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
   }
   
 }
