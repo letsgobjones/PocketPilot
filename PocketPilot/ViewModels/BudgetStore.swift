@@ -19,18 +19,18 @@ class BudgetStore {
    var errorMessage: BudgetError? = nil
    var selectedCurrency : String = "USD"
   
-  
-  func budgetExists(context: NSManagedObjectContext, title: String) -> Bool {
-    let request = Budget.fetchRequest()
-    request.predicate = NSPredicate(format: "title == %@", title)
-    do {
-      let results = try context.fetch(request)
-      return !results.isEmpty
-    } catch {
-      return false
-    }
-  }
-  
+//  
+//  func budgetExists(context: NSManagedObjectContext, title: String) -> Bool {
+//    let request = Budget.fetchRequest()
+//    request.predicate = NSPredicate(format: "title == %@", title)
+//    do {
+//      let results = try context.fetch(request)
+//      return !results.isEmpty
+//    } catch {
+//      return false
+//    }
+//  }
+//  
   //CRUD
   func saveBudget(title: String, limit: Double?, context: NSManagedObjectContext )  {
     let budget = Budget(context: context)
