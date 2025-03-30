@@ -21,7 +21,7 @@ struct ExpenseCellView: View {
         Text("(\(expense.quantity))")
         Spacer()
         Text(expense.total, format: .currency(code: budgetStore.selectedCurrency))
-      }
+      }.contentShape(Rectangle())
       
       ScrollView(.horizontal) {
         HStack {

@@ -13,7 +13,7 @@ struct ExpenseListView: View {
   @FetchRequest(sortDescriptors: []) private var expenses: FetchedResults<Expense>
   @EnvironmentObject var budgetStore: BudgetStore
   @Environment(\.managedObjectContext) private var viewContext
-  
+  @State private var expenseToEdit: Expense?
   
   private var total: Double {
     return expenses.reduce(0) { result, expense in
@@ -61,12 +61,16 @@ struct ExpenseListView: View {
         
         ForEach(expenses) { expense in
           ExpenseCellView(expense: expense)
-          
+            .onLongPressGesture {
+              expenseToEdit = expense
+            }
         }
         .onDelete { indexSet in
           budgetStore.deleteExpense( indexSet, expenses: Array(expenses), context: viewContext)
         }
       }
+    }.sheet(item: $expenseToEdit) { expenseToEdit in
+      Text("Show Edit Expense Screen")
     }
   }
 }
