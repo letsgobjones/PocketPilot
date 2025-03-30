@@ -54,6 +54,16 @@ class BudgetStore {
     saveContext(context)
   }
   
+  
+  func updateExpense(expense: Expense, title: String, amount: Double?, quantity: Int?, tags: Set<Tag>, context: NSManagedObjectContext) {
+    expense.title = title
+    expense.amount = amount ?? 0.0
+    expense.quantity = Int16(quantity ?? 0)
+    expense.tags = tags as NSSet
+    saveContext(context)
+  }
+  
+  
   func deleteExpense(_ indexSet: IndexSet, expenses: [Expense], context: NSManagedObjectContext) {
     indexSet.forEach { index in
       let expense = expenses[index]
