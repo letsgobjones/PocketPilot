@@ -22,6 +22,7 @@ extension Expense {
     expense.amount = 10.50
     expense.quantity = 2
     expense.dateCreated = Date()
+
     return expense
   }
   

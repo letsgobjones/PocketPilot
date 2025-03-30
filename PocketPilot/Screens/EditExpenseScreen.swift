@@ -15,6 +15,8 @@ struct EditExpenseScreen: View {
   
   @Bindable var budgetStore: BudgetStore
   @Environment(\.managedObjectContext) private var viewContext
+  @Environment(\.dismiss) private var dismiss
+  
   let expense: Expense
   
   @State private var expenseTitle: String = ""
@@ -42,11 +44,21 @@ struct EditExpenseScreen: View {
       
       
       
-     
+      
     }.toolbar(content: {
       ToolbarItem(placement: .topBarTrailing) {
         Button("Update") {
-          budgetStore.updateExpense(expense: expense, title: expenseTitle, amount: expenseAmount, quantity: expenseQuantity, tags: expenseSelectedTags, context: viewContext)
+          budgetStore.updateExpense(
+            expense: expense,
+            title: expenseTitle,
+            amount: expenseAmount,
+            quantity: expenseQuantity,
+            tags: expenseSelectedTags,
+            context: viewContext
+          )
+          dismiss()
+          
+          
         }
       }
     })
@@ -59,7 +71,7 @@ struct EditExpenseScreen: View {
     EditExpenseScreen(budgetStore: BudgetStore(), expense: Expense.preview)
     
   }
-//  .environment(BudgetStore())
+  //  .environment(BudgetStore())
   .environment(\.managedObjectContext, CoreDataProvider.preview.context)
 }
 
